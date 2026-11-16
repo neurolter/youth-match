@@ -3,7 +3,7 @@ import { Bookmark } from "lucide-react";
 import { OpportunityCard, OpportunityGrid } from "@/components/opportunity-card";
 import { ButtonLink, EmptyState, PageHeader } from "@/components/ui";
 import { createClient } from "@/lib/supabase/server";
-import { requireUser } from "@/lib/auth";
+import { getProfile, requireUser } from "@/lib/auth";
 import { CARD_COLUMNS, type OpportunityCardData } from "@/lib/opportunities";
 
 export const metadata: Metadata = { title: "Guardadas" };
@@ -11,6 +11,7 @@ export const metadata: Metadata = { title: "Guardadas" };
 export default async function SavedPage() {
   const user = await requireUser("/guardadas");
   const supabase = await createClient();
+  const profile = await getProfile();
   const { data } = await supabase
     .from("saved_opportunities")
     .select(`created_at, opportunity:opportunities(${CARD_COLUMNS})`)
@@ -34,7 +35,7 @@ export default async function SavedPage() {
       ) : (
         <OpportunityGrid>
           {items.map((o) => (
-            <OpportunityCard key={o.id} o={o} saved loggedIn />
+            <OpportunityCard key={o.id} o={o} saved loggedIn nationality={profile?.nationality} />
           ))}
         </OpportunityGrid>
       )}

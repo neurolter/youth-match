@@ -73,7 +73,7 @@ function card(o: EmailOpp, kind: EmailKind, today: string) {
 <tr><td style="padding:18px 20px;font-family:Arial,Helvetica,sans-serif">
 <a href="${url}" style="font-size:17px;font-weight:bold;color:${NAVY};text-decoration:none;line-height:1.35">${esc(o.title)}</a>
 <div style="margin-top:4px;font-size:13px;color:#5b6276">${esc(o.organization)}</div>
-<div style="margin-top:10px;font-size:13px;color:${INK}">📍 ${esc(o.place)} &nbsp;·&nbsp; 💰 ${esc(FUNDING[o.funding] ?? FUNDING.desconocido)}</div>
+<div style="margin-top:10px;font-size:13px;color:${INK}">📍 ${esc(o.place)} &nbsp;·&nbsp; 💰 ${esc(o.type === "voluntariado" && o.funding === "desconocido" ? "Voluntariado sin pago" : (FUNDING[o.funding] ?? FUNDING.desconocido))}</div>
 <div style="margin-top:6px;font-size:13px;font-weight:bold;color:${ACCENT}">⏳ ${esc(closeText(o, today))}</div>
 <div style="margin-top:12px"><a href="${url}" style="font-size:13px;font-weight:bold;color:#1a56d6;text-decoration:none">Ver y postular →</a></div>
 </td></tr></table>`;

@@ -1,7 +1,8 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { ArrowRight, ArrowUpRight, BellRing, ClipboardList, Globe2, RefreshCw, ShieldCheck, Sparkles } from "lucide-react";
-import { ButtonLink, Logo } from "@/components/ui";
+import { ArrowRight, ArrowUpRight, BellRing, ClipboardList, Globe2, Mail, ShieldCheck, Sparkles, TimerOff } from "lucide-react";
+import { ButtonLink, Logo, buttonClass } from "@/components/ui";
+import { CONTACT_EMAIL, FOUNDER } from "@/lib/site";
 import { OpportunityCard } from "@/components/opportunity-card";
 import { createClient } from "@/lib/supabase/server";
 import { getUser } from "@/lib/auth";
@@ -13,13 +14,21 @@ export default async function Home() {
   if (user) redirect("/para-ti");
 
   const supabase = await createClient();
-  const { data, count } = await supabase
-    .from("opportunities")
-    .select(CARD_COLUMNS, { count: "exact" })
-    .eq("status", "publicada")
-    .or(`deadline.gte.${todayISO()},deadline.is.null,rolling_deadline.eq.true`)
-    .order("trust_score", { ascending: false })
-    .limit(3);
+  const open = `deadline.gte.${todayISO()},deadline.is.null,rolling_deadline.eq.true`;
+  const [{ data }, { count }, { count: sources }] = await Promise.all([
+    // Destacadas: abiertas a cualquier nacionalidad y que no sean microvoluntariados en línea
+    supabase
+      .from("opportunities")
+      .select(CARD_COLUMNS)
+      .eq("status", "publicada")
+      .or(open)
+      .filter("eligible_nationalities", "eq", "{}")
+      .or("type.neq.voluntariado,modality.neq.virtual")
+      .order("trust_score", { ascending: false })
+      .limit(3),
+    supabase.from("opportunities").select("id", { count: "exact", head: true }).eq("status", "publicada").or(open),
+    supabase.from("sources").select("id", { count: "exact", head: true }).eq("status", "activa").neq("kind", "manual"),
+  ]);
   const featured = (data ?? []) as OpportunityCardData[];
 
   return (
@@ -58,7 +67,7 @@ export default async function Home() {
               Tu próxima experiencia <span className="text-gradient-accent">internacional</span> te está buscando.
             </h1>
             <p className="mt-6 max-w-xl text-lg leading-relaxed text-white/70">
-              Becas, intercambios, congresos y voluntariados de fuentes oficiales. Reunidos en un solo lugar, al día y elegidos para tu perfil.
+              Becas, intercambios, congresos y voluntariados de fuentes oficiales. Reunidos en un solo lugar y elegidos para tu perfil.
             </p>
             <div className="mt-9 flex flex-col gap-3 sm:flex-row">
               <ButtonLink href="/registro" variant="accent" size="lg">
@@ -73,8 +82,8 @@ export default async function Home() {
             </div>
             <dl className="mt-12 grid max-w-md grid-cols-3 gap-6 border-t border-white/10 pt-6">
               {[
-                ["27+", "fuentes revisadas"],
-                ["Diario", "actualizado"],
+                [String(count ?? 0), "abiertas ahora"],
+                [String(sources ?? 0), "fuentes"],
                 ["Gratis", "para empezar"],
               ].map(([n, l]) => (
                 <div key={l}>
@@ -180,11 +189,11 @@ export default async function Home() {
             <div className="mt-10 grid gap-x-8 gap-y-10 sm:grid-cols-2 lg:grid-cols-3">
               {[
                 { icon: Globe2, title: "Reunimos todo", text: "Revisamos becas, embajadas, organismos internacionales y fundaciones, y traemos cada convocatoria por separado." },
-                { icon: RefreshCw, title: "Siempre al día", text: "Cada día agregamos lo nuevo y ocultamos lo que ya cerró. Nada de enlaces viejos ni convocatorias vencidas." },
+                { icon: TimerOff, title: "Nada vencido", text: "Cuando una convocatoria cierra, desaparece sola. Solo ves lo que todavía puedes postular." },
                 { icon: Sparkles, title: "Hecho a tu medida", text: "Con tu perfil te mostramos primero lo que encaja contigo: edad, nacionalidad, estudios e intereses." },
                 { icon: ShieldCheck, title: "Fuentes confiables", text: "Priorizamos fuentes oficiales y revisamos las demás. Siempre te llevamos al sitio oficial para postular." },
                 { icon: ClipboardList, title: "Organiza tu camino", text: "Guarda oportunidades y sigue tu avance: preparando, enviada y resultado." },
-                { icon: BellRing, title: "Nunca llegues tarde", text: "Con Premium te avisamos antes de que cierre lo que te interesa." },
+                { icon: BellRing, title: "Nunca llegues tarde", text: "Te avisamos por correo antes de que cierre lo que guardaste." },
               ].map(({ icon: Icon, title, text }, i) => (
                 <div key={title} className="relative pl-15">
                   <div className="absolute left-0 top-0 grid size-11 place-items-center rounded-2xl bg-navy text-white">
@@ -195,6 +204,26 @@ export default async function Home() {
                   <p className="mt-1.5 text-[15px] leading-relaxed text-ink/60">{text}</p>
                 </div>
               ))}
+            </div>
+          </div>
+        </section>
+
+        {/* --------------------------------------------------- QUIÉNES SOMOS */}
+        <section id="contacto" className="mx-auto max-w-6xl px-4 pt-16 sm:px-6">
+          <div className="grid gap-8 rounded-[2rem] bg-white p-7 ring-1 ring-navy/8 sm:p-10 md:grid-cols-[1.4fr_1fr] md:items-center">
+            <div>
+              <p className="text-xs font-bold uppercase tracking-[0.18em] text-accent-500">Quiénes somos</p>
+              <h2 className="mt-2 text-3xl font-bold text-navy">Hecho en Ecuador, para Latinoamérica</h2>
+              <p className="mt-3 text-[15px] leading-relaxed text-ink/65">
+                Youth Match es un proyecto de <b className="text-navy">{FOUNDER}</b>, creado para que más jóvenes latinoamericanos encuentren
+                las becas, intercambios y congresos que pueden cambiar su camino, sin perderse entre cientos de páginas.
+              </p>
+            </div>
+            <div className="rounded-2xl bg-paper p-5">
+              <p className="text-sm font-semibold text-navy">¿Tienes una pregunta, una sugerencia o una oportunidad para compartir?</p>
+              <a href={`mailto:${CONTACT_EMAIL}`} className={buttonClass("primary", "md", "mt-4 w-full")}>
+                <Mail className="size-4" /> {CONTACT_EMAIL}
+              </a>
             </div>
           </div>
         </section>
@@ -220,6 +249,7 @@ export default async function Home() {
             <Link href="/descubrir" className="hover:text-navy">Explorar</Link>
             <Link href="/terminos" className="hover:text-navy">Términos</Link>
             <Link href="/privacidad" className="hover:text-navy">Privacidad</Link>
+            <a href={`mailto:${CONTACT_EMAIL}`} className="hover:text-navy">Contacto</a>
           </div>
           <span>© {new Date().getFullYear()} Youth Match</span>
         </div>

@@ -1,9 +1,9 @@
 import Link from "next/link";
 import clsx from "clsx";
-import { Crown } from "lucide-react";
+import { Crown, Lock } from "lucide-react";
 import { SaveButton } from "@/components/save-button";
 import { FUNDING, countryName, type Funding } from "@/lib/constants";
-import { daysLeft, formatDate, regionLabel, typeLabel, type OpportunityCardData } from "@/lib/opportunities";
+import { daysLeft, eligibleFor, formatDate, regionLabel, typeLabel, type OpportunityCardData } from "@/lib/opportunities";
 
 // Color de la franja según el tipo de oportunidad
 const TYPE_TINT: Record<string, string> = {
@@ -32,12 +32,21 @@ export function OpportunityCard({
   saved = false,
   loggedIn = false,
   reasons,
+  nationality,
 }: {
   o: OpportunityCardData;
   saved?: boolean;
   loggedIn?: boolean;
   reasons?: string[];
+  nationality?: string | null;
 }) {
+  const eligible = eligibleFor(o, nationality);
+  const onlyFor =
+    o.eligible_nationalities.length && (eligible === false || o.eligible_nationalities.length <= 3)
+      ? o.eligible_nationalities.slice(0, 2).map(countryName).join(", ") + (o.eligible_nationalities.length > 2 ? ` y ${o.eligible_nationalities.length - 2} más` : "")
+      : null;
+  const fundingText =
+    o.type === "voluntariado" && o.funding === "desconocido" ? "No aplica" : (SHORT_FUNDING[o.funding as Funding] ?? FUNDING.desconocido);
   const t = typeLabel(o.type);
   const d = o.rolling_deadline ? null : daysLeft(o.deadline);
   const urgent = d !== null && d >= 0 && d <= 7;
@@ -80,6 +89,17 @@ export function OpportunityCard({
         </h3>
         <p className="mt-1.5 text-sm font-medium text-ink/55">{o.organization}</p>
 
+        {onlyFor && (
+          <p
+            className={clsx(
+              "mt-3 inline-flex w-fit items-center gap-1.5 rounded-full px-2.5 py-1 text-[11px] font-semibold",
+              eligible === false ? "bg-rose-50 text-rose-700" : "bg-navy/[0.05] text-ink/65",
+            )}
+          >
+            <Lock className="size-3" /> {eligible === false ? "No disponible para tu país · " : ""}Solo para {onlyFor}
+          </p>
+        )}
+
         {reasons && reasons.length > 0 && (
           <div className="mt-4 flex flex-wrap gap-1.5">
             {reasons.map((r) => (
@@ -94,7 +114,7 @@ export function OpportunityCard({
       {/* Talón del boleto */}
       <div className="ticket-perf mx-0 grid grid-cols-[1fr_1fr_auto] items-end gap-3 px-5 pb-5 pt-4">
         <Field label="Destino" value={place} />
-        <Field label="Financia" value={SHORT_FUNDING[o.funding as Funding] ?? FUNDING.desconocido} highlight={o.funding === "total"} />
+        <Field label="Financia" value={fundingText} highlight={o.funding === "total"} />
         <div className="text-right">
           <p className="text-[10px] font-bold uppercase tracking-[0.14em] text-ink/40">Cierra</p>
           {o.rolling_deadline ? (

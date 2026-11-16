@@ -109,6 +109,16 @@ export function matchOpportunities(profile: Profile, list: OpportunityCardData[]
   return results.sort((a, b) => b.score - a.score);
 }
 
+/** ¿Puede postular alguien de esta nacionalidad? (null = no sabemos su nacionalidad) */
+export function eligibleFor(o: Pick<OpportunityCardData, "eligible_nationalities">, nationality: string | null | undefined) {
+  if (!o.eligible_nationalities.length) return true;
+  if (!nationality) return null;
+  return o.eligible_nationalities.includes(nationality);
+}
+
+/** Voluntariados en línea (microtareas): se agrupan aparte en Descubrir. */
+export const isOnlineVolunteering = (o: Pick<OpportunityCardData, "type" | "modality">) => o.type === "voluntariado" && o.modality === "virtual";
+
 export function slugify(text: string) {
   return text
     .normalize("NFD")

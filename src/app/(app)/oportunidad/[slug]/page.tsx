@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import {
+  Lock,
   ArrowLeft, CalendarClock, CheckCircle2, ClipboardList, Crown, ExternalLink, GraduationCap,
   Languages, MapPin, ShieldCheck, Users, Wallet,
 } from "lucide-react";
@@ -9,9 +10,9 @@ import { Badge, ButtonLink, Card } from "@/components/ui";
 import { SaveButton } from "@/components/save-button";
 import { TrackButton } from "@/components/track-button";
 import { createClient } from "@/lib/supabase/server";
-import { getUser, hasPremium } from "@/lib/auth";
+import { getProfile, getUser, hasPremium } from "@/lib/auth";
 import { EDUCATION_LEVELS, FUNDING, LANGUAGES, MODALITIES, countryName, type EducationLevel, type Funding } from "@/lib/constants";
-import { deadlineLabel, formatDate, regionLabel, typeLabel } from "@/lib/opportunities";
+import { deadlineLabel, eligibleFor, formatDate, regionLabel, typeLabel } from "@/lib/opportunities";
 
 async function load(slug: string) {
   const supabase = await createClient();
@@ -37,8 +38,9 @@ export default async function OpportunityPage({ params }: PageProps<"/oportunida
 
   const user = await getUser();
   const supabase = await createClient();
-  const [premium, savedRes, appRes] = await Promise.all([
+  const [premium, profile, savedRes, appRes] = await Promise.all([
     hasPremium(),
+    getProfile(),
     user
       ? supabase.from("saved_opportunities").select("opportunity_id").eq("user_id", user.id).eq("opportunity_id", o.id).maybeSingle()
       : Promise.resolve({ data: null }),
@@ -64,7 +66,14 @@ export default async function OpportunityPage({ params }: PageProps<"/oportunida
               .filter(Boolean)
               .join(" · "),
     },
-    { icon: Wallet, label: "Financiamiento", value: [FUNDING[o.funding as Funding], o.cost_note].filter(Boolean).join(" — ") },
+    {
+      icon: Wallet,
+      label: "Financiamiento",
+      value:
+        o.type === "voluntariado" && o.funding === "desconocido"
+          ? o.cost_note || "Voluntariado sin pago"
+          : [FUNDING[o.funding as Funding], o.cost_note].filter(Boolean).join(" — "),
+    },
     {
       icon: CalendarClock,
       label: "Fechas del programa",
@@ -122,6 +131,15 @@ export default async function OpportunityPage({ params }: PageProps<"/oportunida
 
       <div className="grid gap-6 lg:grid-cols-[1fr_320px] lg:gap-10">
         <div className="space-y-6">
+          {eligibleFor(o, profile?.nationality) === false && (
+            <div className="flex gap-3 rounded-2xl bg-rose-50 px-4 py-3.5 text-sm text-rose-800 ring-1 ring-rose-200">
+              <Lock className="mt-0.5 size-4 shrink-0" />
+              <p>
+                <b>Esta convocatoria no acepta postulantes de {countryName(profile!.nationality!)}.</b> Solo es para:{" "}
+                {o.eligible_nationalities.map(countryName).join(", ")}. Te la mostramos por si tienes otra nacionalidad.
+              </p>
+            </div>
+          )}
           {o.summary && <p className="text-lg leading-relaxed text-ink/75">{o.summary}</p>}
 
           <Card className="grid gap-4 p-5 sm:grid-cols-2">

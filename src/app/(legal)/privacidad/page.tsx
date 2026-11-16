@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { CONTACT_EMAIL } from "@/lib/site";
 
 export const metadata: Metadata = { title: "Política de privacidad" };
 
@@ -15,10 +16,18 @@ export default function PrivacyPage() {
         Nombre, correo, país, nacionalidad, año de nacimiento, nivel de estudios, idiomas e intereses. Los usamos únicamente para
         recomendarte oportunidades y para el funcionamiento de tu cuenta.
       </p>
+      <h2>Correos</h2>
+      <p>
+        Te enviamos avisos sobre fechas límite, un resumen semanal y nuevas oportunidades para tu país. Puedes apagar cada uno desde tu
+        perfil o con el enlace al pie de cada correo.
+      </p>
       <h2>Datos que NO pedimos</h2>
       <p>No solicitamos números de pasaporte, documentos de identidad ni datos bancarios dentro de la plataforma.</p>
       <h2>Tus derechos</h2>
-      <p>Puedes acceder, corregir o eliminar tus datos en cualquier momento escribiéndonos o desde tu perfil.</p>
+      <p>
+        Puedes acceder, corregir o eliminar tus datos en cualquier momento desde tu perfil o escribiéndonos a{" "}
+        <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>.
+      </p>
     </>
   );
 }

@@ -9,7 +9,7 @@ export const metadata: Metadata = {
     template: "%s · Youth Match",
   },
   description:
-    "Becas, intercambios, congresos, voluntariados y programas de liderazgo de todo el mundo, actualizados cada día y recomendados según tu perfil.",
+    "Becas, intercambios, congresos, voluntariados y programas de liderazgo de todo el mundo, recomendados según tu perfil.",
 };
 
 export const viewport: Viewport = {
