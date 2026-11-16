@@ -208,6 +208,8 @@ export function matchOpportunities(
     } else if (o.funding === "parcial") {
       score += 4;
     }
+    // Los microvoluntariados en línea solo suben si la persona busca voluntariados
+    if (o.type === "voluntariado" && o.modality === "virtual" && !profile.opportunity_types.includes("voluntariado")) score -= 15;
     const d = daysLeft(o.deadline);
     if (d !== null && d >= 0 && d <= 21) score += 5;
     score += Math.round((o.trust_score - 50) / 10);
