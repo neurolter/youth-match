@@ -179,6 +179,30 @@ export type NotificationRow = {
   user_id: string;
 };
 
+export type PromoCodeRow = {
+  id: string;
+  code: string;
+  days: number;
+  max_uses: number | null;
+  uses: number;
+  expires_at: string | null;
+  active: boolean;
+  note: string | null;
+  created_at: string;
+};
+
+export type AdminUserRow = {
+  id: string;
+  email: string;
+  full_name: string | null;
+  country: string | null;
+  role: string;
+  onboarded: boolean;
+  created_at: string;
+  last_sign_in_at: string | null;
+  premium_until: string | null;
+  premium_source: string | null;
+};
 
 export type Database = {
   __InternalSupabase: { PostgrestVersion: "14.5" };
@@ -224,6 +248,7 @@ export type Database = {
           { foreignKeyName: "subscriptions_user_id_fkey"; columns: ["user_id"]; isOneToOne: false; referencedRelation: "profiles"; referencedColumns: ["id"] },
         ]
       >;
+      promo_codes: Table<PromoCodeRow, "code" | "days">;
       payment_events: Table<PaymentEventRow, "event_id" | "payload" | "provider" | "type">;
       notifications: Table<
         NotificationRow,
@@ -240,6 +265,9 @@ export type Database = {
       is_admin: { Args: never; Returns: boolean };
       user_has_premium: { Args: never; Returns: boolean };
       email_unsubscribe: { Args: { token: string; kind?: string }; Returns: boolean };
+      redeem_promo_code: { Args: { input: string }; Returns: { ok: boolean; message?: string; until?: string; days?: number } };
+      admin_users: { Args: never; Returns: AdminUserRow[] };
+      admin_set_premium: { Args: { uid: string; days: number }; Returns: string | null };
     };
     Enums: { [_ in never]: never };
     CompositeTypes: { [_ in never]: never };

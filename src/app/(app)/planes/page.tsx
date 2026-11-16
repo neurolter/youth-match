@@ -5,6 +5,7 @@ import { Badge, ButtonLink, Card } from "@/components/ui";
 import { createClient } from "@/lib/supabase/server";
 import { getUser, hasPremium } from "@/lib/auth";
 import { paymentsEnabled } from "@/lib/payments";
+import { RedeemForm } from "./redeem-form";
 
 export const metadata: Metadata = { title: "Planes" };
 
@@ -78,6 +79,7 @@ export default async function PlansPage() {
           );
         })}
       </div>
+      {user && !premium && <RedeemForm />}
       <p className="text-center text-xs text-ink/40">Precios en dólares estadounidenses. Puedes cancelar cuando quieras.</p>
     </div>
   );
