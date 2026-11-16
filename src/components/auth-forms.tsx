@@ -13,6 +13,7 @@ import {
   type AuthState,
 } from "@/app/auth/actions";
 import { Alert, Button, Input, Label } from "@/components/ui";
+import { GoogleSignIn } from "@/components/google-sign-in";
 
 function Submit({ children, variant = "primary" }: { children: React.ReactNode; variant?: "primary" | "secondary" }) {
   const { pending } = useFormStatus();
@@ -43,15 +44,22 @@ function GoogleIcon() {
 // Se muestra solo cuando Google está activado en Supabase (NEXT_PUBLIC_GOOGLE_AUTH=true)
 const GOOGLE_ENABLED = process.env.NEXT_PUBLIC_GOOGLE_AUTH === "true";
 
-export function GoogleButton({ next }: { next: string }) {
+export function GoogleButton({ next, oneTap = false }: { next: string; oneTap?: boolean }) {
   if (!GOOGLE_ENABLED) return null;
   return (
-    <form action={signInWithGoogle}>
-      <input type="hidden" name="siguiente" value={next} />
-      <Submit variant="secondary">
-        <GoogleIcon /> Continuar con Google
-      </Submit>
-    </form>
+    <GoogleSignIn
+      next={next}
+      oneTap={oneTap}
+      fallback={
+        // Si el botón oficial de Google no carga, se usa el flujo por redirección
+        <form action={signInWithGoogle}>
+          <input type="hidden" name="siguiente" value={next} />
+          <Submit variant="secondary">
+            <GoogleIcon /> Continuar con Google
+          </Submit>
+        </form>
+      }
+    />
   );
 }
 
@@ -71,7 +79,7 @@ export function SignInForm({ next }: { next: string }) {
 
   return (
     <div className="space-y-4">
-      <GoogleButton next={next} />
+      <GoogleButton next={next} oneTap />
       <Divider />
       <div className="grid grid-cols-2 rounded-xl bg-navy/5 p-1 text-sm font-medium">
         {(["password", "magic"] as const).map((m) => (
