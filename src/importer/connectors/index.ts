@@ -20,6 +20,8 @@ export const CONNECTORS: Record<string, Connector> = {
   "one-young-world": oneYoungWorld,
   "opportunity-desk": rssConnector(),
   "opportunities-corners": rssConnector(),
+  // Solo la categoría "Conferences" (pedida por Sebastian)
+  "opportunities-corners-conferencias": rssConnector(),
   "scholarships-corner": rssConnector(),
   "youthop-conferencias": youthopConferences,
   // Prioridad 2 (agregadores con RSS)

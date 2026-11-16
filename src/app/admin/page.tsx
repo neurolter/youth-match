@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, Link2 } from "lucide-react";
 import { Badge, Card, Logo } from "@/components/ui";
 import { createClient } from "@/lib/supabase/server";
 import { requireAdmin } from "@/lib/auth";
@@ -60,6 +60,18 @@ export default async function AdminPage() {
       </header>
 
       <main className="mx-auto max-w-6xl space-y-8 px-4 py-8 sm:px-6">
+        <div className="bg-globe grain relative flex flex-col gap-4 overflow-hidden rounded-[1.6rem] p-6 text-white sm:flex-row sm:items-center sm:justify-between">
+          <div className="relative">
+            <p className="font-display text-xl font-bold">¿Encontraste una oportunidad?</p>
+            <p className="mt-1 text-sm text-white/70">Pega el enlace y la IA llena los datos por ti. Útil para sitios que bloquean el importador.</p>
+          </div>
+          <Link
+            href="/admin/agregar"
+            className="relative inline-flex h-12 shrink-0 items-center justify-center gap-2 rounded-full bg-gradient-accent px-6 font-semibold text-white"
+          >
+            <Link2 className="size-4" /> Agregar por enlace
+          </Link>
+        </div>
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
           {[
             ["Publicadas", totals.publicada],
