@@ -40,7 +40,11 @@ function GoogleIcon() {
   );
 }
 
+// Se muestra solo cuando Google está activado en Supabase (NEXT_PUBLIC_GOOGLE_AUTH=true)
+const GOOGLE_ENABLED = process.env.NEXT_PUBLIC_GOOGLE_AUTH === "true";
+
 export function GoogleButton({ next }: { next: string }) {
+  if (!GOOGLE_ENABLED) return null;
   return (
     <form action={signInWithGoogle}>
       <input type="hidden" name="siguiente" value={next} />
@@ -52,6 +56,7 @@ export function GoogleButton({ next }: { next: string }) {
 }
 
 function Divider() {
+  if (!GOOGLE_ENABLED) return null;
   return (
     <div className="my-5 flex items-center gap-3 text-xs text-slate-400">
       <span className="h-px flex-1 bg-slate-200" /> o <span className="h-px flex-1 bg-slate-200" />

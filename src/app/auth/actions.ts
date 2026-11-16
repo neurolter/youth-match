@@ -14,6 +14,9 @@ function translateError(message: string): string {
   if (m.includes("password should be at least")) return "La contraseña debe tener al menos 8 caracteres.";
   if (m.includes("rate limit") || m.includes("too many")) return "Demasiados intentos. Espera unos minutos y vuelve a intentar.";
   if (m.includes("weak") || m.includes("pwned")) return "Esa contraseña es muy fácil de adivinar. Usa una más segura.";
+  if (m.includes("sending") || m.includes("smtp") || m.includes("email"))
+    return "No pudimos enviarte el correo en este momento. Inténtalo de nuevo en unos minutos.";
+  if (m.includes("provider is not enabled")) return "Este método de acceso todavía no está disponible. Usa tu correo.";
   return "Algo salió mal. Inténtalo de nuevo.";
 }
 
