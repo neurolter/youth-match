@@ -1,10 +1,10 @@
 name: Importador de oportunidades
 
 on:
-  # Cada 6 horas (minuto 17 para evitar la hora punta de GitHub). Cada fuente
-  # decide si le toca según su `frequency_hours` en la tabla `sources`.
+  # Una vez por semana: lunes 06:17 UTC (01:17 en Ecuador). Cada fuente decide
+  # si le toca según su `frequency_hours` en la tabla `sources` (160 h ≈ semanal).
   schedule:
-    - cron: "17 */6 * * *"
+    - cron: "17 6 * * 1"
   # Ejecución manual: pestaña Actions → "Importador de oportunidades" → "Run workflow".
   workflow_dispatch:
     inputs:

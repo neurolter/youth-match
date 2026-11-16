@@ -30,7 +30,7 @@ Base de datos: `supabase/migrations/`. Tablas principales: `profiles`, `sources`
 
 ## Importador
 
-Código en `src/importer/` (independiente de Next.js: corre con `tsx` y no entra en el bundle de la app). Se ejecuta solo en GitHub Actions cada 6 horas (`.github/workflows/importador.yml`) y también a mano desde la pestaña **Actions**.
+Código en `src/importer/` (independiente de Next.js: corre con `tsx` y no entra en el bundle de la app). Se ejecuta solo en GitHub Actions una vez por semana (lunes 01:17, hora de Ecuador) (`.github/workflows/importador.yml`) y también a mano desde la pestaña **Actions**.
 
 **Regla de oro:** una oportunidad = un registro, con el link de postulación de ESA oportunidad.
 

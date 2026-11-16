@@ -76,13 +76,39 @@ export async function aggregatorPage(html: string, item: ListItem, ctx: Ctx, sel
   return page;
 }
 
-export function rssConnector(opts: { feedUrl?: string; selectors?: string[]; maxItems?: number } = {}): Connector {
+/** URL de la página N de un feed de WordPress (`?paged=N`). */
+export function feedPage(feedUrl: string, n: number): string {
+  if (n <= 1) return feedUrl;
+  const u = new URL(feedUrl);
+  u.searchParams.set("paged", String(n));
+  return u.toString();
+}
+
+export function rssConnector(opts: { feedUrl?: string; selectors?: string[]; maxItems?: number; pages?: number } = {}): Connector {
   return {
     complete: false, // un RSS solo trae lo último: salir del feed no significa que cerró
     async list(ctx) {
-      const xml = await ctx.http.text(opts.feedUrl ?? ctx.source.url);
-      return parseFeed(xml)
-        .slice(0, opts.maxItems ?? 30)
+      // Con importación semanal, la primera página del feed (≈10 publicaciones) no
+      // alcanza a cubrir 7 días en los agregadores más activos: se leen hasta 3
+      // páginas. Lo ya visto no vuelve a pasar por la IA, así que no sube el costo.
+      const feedUrl = opts.feedUrl ?? ctx.source.url;
+      const seen = new Set<string>();
+      const all: ReturnType<typeof parseFeed> = [];
+      for (let n = 1; n <= (opts.pages ?? 3); n++) {
+        let items: ReturnType<typeof parseFeed>;
+        try {
+          items = parseFeed(await ctx.http.text(feedPage(feedUrl, n)));
+        } catch (e) {
+          if (n === 1) throw e; // sin la primera página no hay nada
+          break; // el sitio no tiene más páginas (o no admite ?paged)
+        }
+        const fresh = items.filter((it) => !seen.has(it.link));
+        if (!fresh.length) break;
+        fresh.forEach((it) => seen.add(it.link));
+        all.push(...fresh);
+      }
+      return all
+        .slice(0, opts.maxItems ?? 40)
         .map((it) => ({ url: it.link, externalId: it.guid || it.link, title: it.title, inlineHtml: it.html ?? undefined }));
     },
     async detail(item, ctx) {
