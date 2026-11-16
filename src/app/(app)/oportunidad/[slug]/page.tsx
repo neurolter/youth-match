@@ -140,6 +140,15 @@ export default async function OpportunityPage({ params }: PageProps<"/oportunida
               </p>
             </div>
           )}
+          {o.trust_score < 60 && (
+            <div className="flex gap-3 rounded-2xl bg-amber-50 px-4 py-3.5 text-sm text-amber-900 ring-1 ring-amber-200">
+              <ShieldCheck className="mt-0.5 size-4 shrink-0" />
+              <p>
+                <b>Verifica los costos antes de postular.</b> No pudimos confirmar todos los datos con una fuente oficial. Revisa en el
+                sitio del organizador si cobran inscripción u otros pagos. Nunca pagues para "asegurar" un cupo.
+              </p>
+            </div>
+          )}
           {o.summary && <p className="text-lg leading-relaxed text-ink/75">{o.summary}</p>}
 
           <Card className="grid gap-4 p-5 sm:grid-cols-2">

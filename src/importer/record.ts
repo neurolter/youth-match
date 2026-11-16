@@ -102,6 +102,9 @@ export function pickApplicationUrl(page: Page, ex: Extraction, source: Source): 
 }
 
 /** Puntaje de confianza de 0 a 100. */
+/** Por debajo de este puntaje nada se publica solo: va a revisión. */
+export const MIN_TRUST_TO_PUBLISH = 45;
+
 export function trustScore(f: Omit<OpportunityFields, "trust_score" | "review_notes">, source: Source, o: {
   linkOk: boolean | null;
   officialVerified: boolean;
@@ -196,13 +199,16 @@ export function buildRecord({ page, ex, source, today, linkOk }: Input): Built {
   if (signals.length) notes.push(`Señales de alerta: ${signals.join("; ")}.`);
   if (source.tier === 3) notes.push(`Visto en el agregador: ${page.url}`);
 
+  const trust = trustScore(base, source, { linkOk, officialVerified, scamSignals: signals.length });
+  if (trust < MIN_TRUST_TO_PUBLISH) notes.push("Confianza baja: revisa si cobra inscripción antes de publicar.");
+
   const closed = m.is_open === false || (!m.rolling_deadline && !!m.deadline && m.deadline < today) || page.closed === true;
-  const publish = source.auto_publish && !missing.length && linkOk !== false && signals.length === 0;
+  const publish = source.auto_publish && !missing.length && linkOk !== false && signals.length === 0 && trust >= MIN_TRUST_TO_PUBLISH;
 
   return {
     fields: {
       ...base,
-      trust_score: trustScore(base, source, { linkOk, officialVerified, scamSignals: signals.length }),
+      trust_score: trust,
       review_notes: notes.length ? notes.join(" ") : null,
     },
     status: publish ? "publicada" : "revision",

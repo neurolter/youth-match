@@ -47,6 +47,9 @@ export async function searchOpportunities(sp: SP, nationality?: string | null) {
     query = query.lte("deadline", limit.toISOString().slice(0, 10));
   }
 
+  // Sin nacionalidad conocida (visitante), las limitadas a 1-2 países van al final
+  if (!nationality) query = query.order("few_countries", { ascending: true });
+
   query =
     one(sp.orden) === "recientes"
       ? query.order("published_at", { ascending: false, nullsFirst: false })

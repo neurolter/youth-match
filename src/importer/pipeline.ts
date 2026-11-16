@@ -95,8 +95,8 @@ export async function upsertOpportunity(
   }
 
   const changed = otherSource || TRACKED.some((k) => JSON.stringify(existing[k]) !== JSON.stringify(f[k]));
-  // Una publicada sigue publicada; una en revisión o expirada se vuelve a evaluar.
-  const status = existing.status === "publicada" || existing.status === "borrador" ? existing.status : built.status;
+  // Una publicada sigue publicada y una rechazada por el admin sigue rechazada; en revisión o expirada se vuelve a evaluar.
+  const status = ["publicada", "borrador", "rechazada"].includes(existing.status) ? existing.status : built.status;
   await store.updateOpportunity(existing.id, {
     ...f,
     status,

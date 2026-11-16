@@ -87,7 +87,7 @@ export function sanitizeExtraction(raw: unknown): Extraction {
     benefits: lines(r.benefits, 8),
     requirements: lines(r.requirements, 8),
     deadline: isoDate(r.deadline),
-    rolling_deadline: r.rolling_deadline === true,
+    rolling_deadline: r.rolling_deadline === true && !isoDate(r.deadline),
     start_date: isoDate(r.start_date),
     end_date: isoDate(r.end_date),
     application_url: httpUrl(r.application_url),

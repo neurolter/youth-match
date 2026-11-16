@@ -63,6 +63,7 @@ export type SourceRow = {
 };
 
 export type OpportunityRow = {
+  few_countries: boolean;
   application_url: string | null;
   areas: string[];
   benefits: string[];
