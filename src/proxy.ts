@@ -2,7 +2,11 @@ import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 
 // Rutas que requieren sesión iniciada
-const PROTECTED = ["/para-ti", "/guardadas", "/postulaciones", "/perfil", "/onboarding", "/admin", "/organizador"];
+const PROTECTED = [
+  "/para-ti", "/guardadas", "/postulaciones", "/perfil", "/onboarding", "/admin", "/organizador",
+  // El catálogo es solo para usuarios registrados (en la portada se ven 3 de muestra)
+  "/descubrir", "/oportunidad",
+];
 
 export async function proxy(request: NextRequest) {
   let response = NextResponse.next({ request });
@@ -33,8 +37,11 @@ export async function proxy(request: NextRequest) {
   const path = request.nextUrl.pathname;
   if (!user && PROTECTED.some((p) => path === p || path.startsWith(p + "/"))) {
     const url = request.nextUrl.clone();
-    url.pathname = "/ingresar";
-    url.searchParams.set("siguiente", path);
+    // Quien llega a explorar suele ser nuevo: se le invita a crear su cuenta.
+    // El resto (enlaces de correos, páginas personales) va a "Ingresar".
+    url.pathname = path.startsWith("/descubrir") ? "/registro" : "/ingresar";
+    url.search = "";
+    url.searchParams.set("siguiente", path + request.nextUrl.search);
     return NextResponse.redirect(url);
   }
 

@@ -40,12 +40,15 @@ export function OpportunityCard({
   loggedIn = false,
   reasons,
   nationality,
+  href,
 }: {
   o: OpportunityCardData;
   saved?: boolean;
   loggedIn?: boolean;
   reasons?: string[];
   nationality?: string | null;
+  /** Destino al hacer clic (por defecto, la página de la oportunidad). */
+  href?: string;
 }) {
   const eligible = eligibleFor(o, nationality);
   const onlyFor =
@@ -109,7 +112,7 @@ export function OpportunityCard({
 
         <h3 className="text-[1.15rem] font-bold leading-snug text-navy">
           <Link
-            href={`/oportunidad/${o.slug}`}
+            href={href ?? `/oportunidad/${o.slug}`}
             className="after:absolute after:inset-0 focus-visible:outline-none"
           >
             {o.title}

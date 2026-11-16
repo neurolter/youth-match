@@ -51,7 +51,7 @@ export default async function Home() {
         <header className="relative z-10 mx-auto flex h-18 w-full max-w-6xl items-center justify-between px-4 sm:px-6">
           <Logo variant="white" />
           <nav className="flex items-center gap-1 sm:gap-2">
-            <Link href="/descubrir" className="hidden rounded-full px-4 py-2 text-sm font-semibold text-white/75 hover:text-white sm:block">
+            <Link href="/registro?siguiente=%2Fdescubrir" className="hidden rounded-full px-4 py-2 text-sm font-semibold text-white/75 hover:text-white sm:block">
               Explorar
             </Link>
             <Link href="/planes" className="hidden rounded-full px-4 py-2 text-sm font-semibold text-white/75 hover:text-white sm:block">
@@ -87,7 +87,7 @@ export default async function Home() {
                 Empieza gratis <ArrowRight className="size-4" />
               </ButtonLink>
               <Link
-                href="/descubrir"
+                href="/registro?siguiente=%2Fdescubrir"
                 className="inline-flex h-13 items-center justify-center gap-2 rounded-full px-7 font-semibold text-white ring-1 ring-white/25 transition hover:bg-white/10"
               >
                 Ver oportunidades{count ? ` (${count})` : ""}
@@ -170,7 +170,7 @@ export default async function Home() {
               .map(([k, t]) => (
                 <Link
                   key={k}
-                  href={`/descubrir?tipo=${k}`}
+                  href={`/registro?siguiente=${encodeURIComponent(`/descubrir?tipo=${k}`)}`}
                   className="group flex items-center justify-between gap-2 rounded-2xl bg-white p-4 ring-1 ring-navy/8 transition hover:-translate-y-0.5 hover:shadow-lg hover:shadow-navy/10 hover:ring-navy/15"
                 >
                   <span className="flex items-center gap-2.5 text-sm font-semibold text-navy">
@@ -186,13 +186,13 @@ export default async function Home() {
           <section className="mx-auto max-w-6xl px-4 pb-14 sm:px-6">
             <div className="mb-6 flex items-end justify-between gap-4">
               <h2 className="text-3xl font-bold text-navy sm:text-4xl">Abiertas ahora</h2>
-              <Link href="/descubrir" className="shrink-0 text-sm font-bold text-accent-600 hover:underline">
+              <Link href="/registro?siguiente=%2Fdescubrir" className="shrink-0 text-sm font-bold text-accent-600 hover:underline">
                 Ver todas →
               </Link>
             </div>
             <div className="stagger grid gap-5 md:grid-cols-3">
               {featured.map((o) => (
-                <OpportunityCard key={o.id} o={o} />
+                <OpportunityCard key={o.id} o={o} href={`/registro?siguiente=${encodeURIComponent(`/oportunidad/${o.slug}`)}`} />
               ))}
             </div>
           </section>
@@ -265,7 +265,7 @@ export default async function Home() {
         <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 px-4 text-sm text-ink/55 sm:flex-row sm:px-6">
           <Logo size={26} className="text-sm" />
           <div className="flex gap-5">
-            <Link href="/descubrir" className="hover:text-navy">Explorar</Link>
+            <Link href="/registro?siguiente=%2Fdescubrir" className="hover:text-navy">Explorar</Link>
             <Link href="/terminos" className="hover:text-navy">Términos</Link>
             <Link href="/privacidad" className="hover:text-navy">Privacidad</Link>
             <a href={`mailto:${CONTACT_EMAIL}`} className="hover:text-navy">Contacto</a>

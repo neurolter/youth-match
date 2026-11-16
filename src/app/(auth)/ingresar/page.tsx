@@ -28,7 +28,7 @@ export default async function SignInPage({ searchParams }: PageProps<"/ingresar"
       <SignInForm next={next} />
       <p className="mt-6 text-center text-sm text-ink/55">
         ¿No tienes cuenta?{" "}
-        <Link href="/registro" className="font-semibold text-brand-600 hover:underline">
+        <Link href={sp.siguiente ? `/registro?siguiente=${encodeURIComponent(next)}` : "/registro"} className="font-semibold text-brand-600 hover:underline">
           Regístrate gratis
         </Link>
       </p>
