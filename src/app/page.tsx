@@ -15,7 +15,7 @@ export default async function Home() {
 
   const supabase = await createClient();
   const open = `deadline.gte.${todayISO()},deadline.is.null,rolling_deadline.eq.true`;
-  const [{ data }, { count }, { count: sources }] = await Promise.all([
+  const [{ data }, { count }] = await Promise.all([
     // Destacadas: abiertas a cualquier nacionalidad y que no sean microvoluntariados en línea
     supabase
       .from("opportunities")
@@ -27,7 +27,6 @@ export default async function Home() {
       .order("trust_score", { ascending: false })
       .limit(3),
     supabase.from("opportunities").select("id", { count: "exact", head: true }).eq("status", "publicada").or(open),
-    supabase.from("sources").select("id", { count: "exact", head: true }).eq("status", "activa").neq("kind", "manual"),
   ]);
   const featured = (data ?? []) as OpportunityCardData[];
 
@@ -83,7 +82,7 @@ export default async function Home() {
             <dl className="mt-12 grid max-w-md grid-cols-3 gap-6 border-t border-white/10 pt-6">
               {[
                 [String(count ?? 0), "abiertas ahora"],
-                [String(sources ?? 0), "fuentes"],
+                ["100 %", "en español"],
                 ["Gratis", "para empezar"],
               ].map(([n, l]) => (
                 <div key={l}>
