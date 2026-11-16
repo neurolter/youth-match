@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	>
+
+<channel>
+	<title>Opportunity Desk</title>
+	<atom:link href="https://opportunitydesk.org/feed/" rel="self" type="application/rss+xml" />
+	<link>https://opportunitydesk.org</link>
+	<item>
+		<title>Arab American Leadership Program (AALP) 2027 ($3,000 stipend)</title>
+		<link>https://opportunitydesk.org/2026/11/16/arab-american-leadership-program-2027/</link>
+		
+		<dc:creator><![CDATA[Jude Ogar]]></dc:creator>
+		<pubDate>Mon, 16 Nov 2026 16:35:51 +0000</pubDate>
+				<category><![CDATA[America]]></category>
+		<category><![CDATA[Fellowships]]></category>
+		<category><![CDATA[Arab American Leadership Program]]></category>
+		<guid isPermaLink="false">https://opportunitydesk.org/?p=180266</guid>
+
+					<description><![CDATA[Deadline: December 13, 2026 Applications are open for the Arab American Leadership Program (AALP) 2027. Established in 2021, the Arab American Leadership Program (AALP) is building a career pipeline for emerging leaders to serve in public policy, government and civic leadership. [...]]]></description>
+			</item>
+</channel>
+</rss>
