@@ -28,7 +28,7 @@ export default async function PlansPage() {
           <Crown className="size-3" /> Youth Match Premium
         </Badge>
         <h1 className="text-3xl font-bold tracking-tight">Invierte en tu próxima experiencia internacional</h1>
-        <p className="mx-auto mt-2 max-w-xl text-slate-500">
+        <p className="mx-auto mt-2 max-w-xl text-ink/55">
           Una beca o un congreso pueden cambiar tu carrera. Premium te ayuda a no perderte ninguna.
         </p>
       </div>
@@ -43,23 +43,23 @@ export default async function PlansPage() {
                 <h2 className="font-semibold">{p.name}</h2>
                 {featured && <Badge tone="brand">Recomendado</Badge>}
               </div>
-              <p className="mt-1 text-sm text-slate-500">{p.description}</p>
+              <p className="mt-1 text-sm text-ink/55">{p.description}</p>
               <p className="mt-5 text-3xl font-bold">
                 {p.price_cents === 0 ? "Gratis" : price(p.price_cents, p.currency)}
                 {p.billing_interval && (
-                  <span className="text-base font-normal text-slate-500">/{p.billing_interval === "mes" ? "mes" : "año"}</span>
+                  <span className="text-base font-normal text-ink/55">/{p.billing_interval === "mes" ? "mes" : "año"}</span>
                 )}
               </p>
               <ul className="mt-6 flex-1 space-y-2.5">
                 {p.features.map((f) => (
-                  <li key={f} className="flex gap-2 text-sm text-slate-700">
+                  <li key={f} className="flex gap-2 text-sm text-ink/80">
                     <Check className="mt-0.5 size-4 shrink-0 text-brand-600" /> {f}
                   </li>
                 ))}
               </ul>
               <div className="mt-6">
                 {current ? (
-                  <span className="flex h-11 items-center justify-center rounded-xl bg-slate-100 text-sm font-semibold text-slate-600">Tu plan actual</span>
+                  <span className="flex h-11 items-center justify-center rounded-xl bg-navy/5 text-sm font-semibold text-ink/70">Tu plan actual</span>
                 ) : p.id === "gratis" ? (
                   <ButtonLink href={user ? "/descubrir" : "/registro"} variant="secondary" className="w-full">
                     {user ? "Explorar" : "Empezar gratis"}
@@ -78,7 +78,7 @@ export default async function PlansPage() {
           );
         })}
       </div>
-      <p className="text-center text-xs text-slate-400">Precios en dólares estadounidenses. Puedes cancelar cuando quieras.</p>
+      <p className="text-center text-xs text-ink/40">Precios en dólares estadounidenses. Puedes cancelar cuando quieras.</p>
     </div>
   );
 }

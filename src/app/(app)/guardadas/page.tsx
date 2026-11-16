@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Bookmark } from "lucide-react";
 import { OpportunityCard, OpportunityGrid } from "@/components/opportunity-card";
-import { ButtonLink, EmptyState } from "@/components/ui";
+import { ButtonLink, EmptyState, PageHeader } from "@/components/ui";
 import { createClient } from "@/lib/supabase/server";
 import { requireUser } from "@/lib/auth";
 import { CARD_COLUMNS, type OpportunityCardData } from "@/lib/opportunities";
@@ -22,11 +22,8 @@ export default async function SavedPage() {
     .filter((o): o is OpportunityCardData => !!o);
 
   return (
-    <div className="space-y-6">
-      <div>
-        <h1 className="text-2xl font-bold tracking-tight sm:text-3xl">Guardadas</h1>
-        <p className="mt-1 text-slate-500">Las oportunidades que marcaste para revisar después.</p>
-      </div>
+    <div className="space-y-7">
+      <PageHeader eyebrow="Tu lista" title="Guardadas" description="Las oportunidades que marcaste para revisar después." />
       {items.length === 0 ? (
         <EmptyState
           icon={<Bookmark className="size-6" />}

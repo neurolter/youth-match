@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
-import { GeistSans } from "geist/font/sans";
+import "@fontsource-variable/bricolage-grotesque";
+import "@fontsource-variable/plus-jakarta-sans";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -12,12 +13,12 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#0b1f52",
+  themeColor: "#060f2e",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="es" className={`${GeistSans.variable} h-full`}>
+    <html lang="es" className="h-full">
       <body className="min-h-full flex flex-col font-sans">{children}</body>
     </html>
   );

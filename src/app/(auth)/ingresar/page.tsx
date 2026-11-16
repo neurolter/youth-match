@@ -18,15 +18,15 @@ export default async function SignInPage({ searchParams }: PageProps<"/ingresar"
 
   return (
     <>
-      <h1 className="text-2xl font-bold tracking-tight">Bienvenido de nuevo</h1>
-      <p className="mt-1.5 mb-6 text-sm text-slate-500">Ingresa para ver tus oportunidades recomendadas.</p>
+      <h1 className="text-[2rem] font-bold leading-tight text-navy">Bienvenido de nuevo</h1>
+      <p className="mt-1.5 mb-6 text-sm text-ink/55">Ingresa para ver tus oportunidades recomendadas.</p>
       {error && (
         <div className="mb-4">
           <Alert>{error}</Alert>
         </div>
       )}
       <SignInForm next={next} />
-      <p className="mt-6 text-center text-sm text-slate-500">
+      <p className="mt-6 text-center text-sm text-ink/55">
         ¿No tienes cuenta?{" "}
         <Link href="/registro" className="font-semibold text-brand-600 hover:underline">
           Regístrate gratis

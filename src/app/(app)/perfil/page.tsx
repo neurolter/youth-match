@@ -16,8 +16,8 @@ export default async function ProfilePage() {
   return (
     <div className="mx-auto max-w-2xl space-y-8">
       <div>
-        <h1 className="text-2xl font-bold tracking-tight sm:text-3xl">Mi perfil</h1>
-        <p className="mt-1 text-slate-500">{user?.email}</p>
+        <h1 className="text-[2rem] font-bold leading-[1.05] text-navy sm:text-[2.6rem]">Mi perfil</h1>
+        <p className="mt-1 text-ink/55">{user?.email}</p>
       </div>
 
       <Card className="flex items-center justify-between gap-4 p-5">
@@ -27,7 +27,7 @@ export default async function ProfilePage() {
           </div>
           <div>
             <p className="text-sm font-semibold">Plan {premium ? "Premium" : "Gratis"}</p>
-            <p className="text-xs text-slate-500">
+            <p className="text-xs text-ink/55">
               {premium ? "Tienes acceso a todo." : "Desbloquea todas tus recomendaciones y alertas."}
             </p>
           </div>
@@ -41,7 +41,7 @@ export default async function ProfilePage() {
 
       <ProfileForm profile={profile} mode="edit" />
 
-      <form action={signOut} className="border-t border-slate-200 pt-6">
+      <form action={signOut} className="border-t border-navy/10 pt-6">
         <Button type="submit" variant="ghost">
           <LogOut className="size-4" /> Cerrar sesión
         </Button>

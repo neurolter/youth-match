@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Crown } from "lucide-react";
+import { Crown, Shield } from "lucide-react";
 import { DesktopNav, MobileNav } from "@/components/app-nav";
 import { ButtonLink, Logo } from "@/components/ui";
 import { getProfile, hasPremium } from "@/lib/auth";
@@ -14,9 +14,9 @@ export default async function AppLayout({ children }: { children: React.ReactNod
     .join("");
 
   return (
-    <div className="flex min-h-dvh flex-col">
-      <header className="sticky top-0 z-30 border-b border-slate-200/70 bg-white/90 backdrop-blur">
-        <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-4 px-4 sm:px-6">
+    <div className="bg-dots flex min-h-dvh flex-col">
+      <header className="sticky top-0 z-30 border-b border-navy/[0.06] bg-paper/80 backdrop-blur-xl supports-[backdrop-filter]:bg-paper/70">
+        <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-4 px-4 sm:h-[4.5rem] sm:px-6">
           <div className="flex items-center gap-6">
             <Link href={profile ? "/para-ti" : "/"} aria-label="Youth Match">
               <Logo />
@@ -24,33 +24,39 @@ export default async function AppLayout({ children }: { children: React.ReactNod
             {profile && <DesktopNav />}
           </div>
           {profile ? (
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-1.5">
               {!premium && (
                 <Link
                   href="/planes"
-                  className="hidden items-center gap-1.5 rounded-lg px-3 py-2 text-sm font-semibold text-amber-700 hover:bg-amber-50 sm:inline-flex"
+                  className="hidden items-center gap-1.5 rounded-full bg-gradient-accent px-4 py-2 text-sm font-bold text-white shadow-md shadow-accent-500/25 transition hover:brightness-105 sm:inline-flex"
                 >
                   <Crown className="size-4" /> Premium
                 </Link>
               )}
               {profile.role === "admin" && (
-                <Link href="/admin" className="hidden rounded-lg px-3 py-2 text-sm font-medium text-slate-600 hover:bg-slate-100 sm:block">
-                  Admin
+                <Link
+                  href="/admin"
+                  aria-label="Administración"
+                  className="grid size-10 place-items-center rounded-full text-ink/60 transition hover:bg-navy/5 hover:text-navy"
+                >
+                  <Shield className="size-5" />
                 </Link>
               )}
               <Link
                 href="/perfil"
                 aria-label="Mi perfil"
-                className="grid size-9 place-items-center rounded-full bg-brand-100 text-sm font-semibold text-brand-700 ring-2 ring-white"
+                className="ml-1 grid size-10 place-items-center rounded-full bg-navy font-display text-sm font-bold text-white ring-4 ring-white"
               >
                 {initials || "YM"}
               </Link>
             </div>
           ) : (
-            <div className="flex items-center gap-2">
-              <ButtonLink href="/ingresar" variant="ghost" size="sm">
-                Ingresar
-              </ButtonLink>
+            <div className="flex items-center gap-1.5">
+              <span className="hidden min-[420px]:block">
+                <ButtonLink href="/ingresar" variant="ghost" size="sm">
+                  Ingresar
+                </ButtonLink>
+              </span>
               <ButtonLink href="/registro" size="sm">
                 Crear cuenta
               </ButtonLink>
@@ -58,7 +64,7 @@ export default async function AppLayout({ children }: { children: React.ReactNod
           )}
         </div>
       </header>
-      <main className="mx-auto w-full max-w-6xl flex-1 px-4 py-6 pb-safe sm:px-6 sm:py-8">{children}</main>
+      <main className="mx-auto w-full max-w-6xl flex-1 px-4 py-7 pb-safe sm:px-6 sm:py-10">{children}</main>
       {profile && <MobileNav />}
     </div>
   );

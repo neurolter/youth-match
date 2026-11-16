@@ -96,14 +96,13 @@ export default async function OpportunityPage({ params }: PageProps<"/oportunida
   ].filter((f) => f.value);
 
   return (
-    <div className="mx-auto max-w-4xl">
-      <Link href="/descubrir" className="mb-5 inline-flex items-center gap-1.5 text-sm font-medium text-slate-500 hover:text-slate-900">
+    <div className="mx-auto max-w-5xl">
+      <Link href="/descubrir" className="mb-5 inline-flex items-center gap-1.5 text-sm font-medium text-ink/55 hover:text-navy">
         <ArrowLeft className="size-4" /> Volver a descubrir
       </Link>
 
-      <div className="grid gap-6 lg:grid-cols-[1fr_300px]">
-        <div className="space-y-6">
-          <div>
+      <div className="mb-8 max-w-3xl">
+        <div>
             <div className="mb-3 flex flex-wrap gap-1.5">
               <Badge tone="brand">
                 {t.emoji} {t.label}
@@ -115,19 +114,23 @@ export default async function OpportunityPage({ params }: PageProps<"/oportunida
               )}
               {closed && <Badge tone="slate">Convocatoria cerrada</Badge>}
             </div>
-            <h1 className="text-2xl font-bold leading-tight tracking-tight sm:text-3xl">{o.title}</h1>
-            <p className="mt-2 text-slate-500">{o.organization}</p>
+            <h1 className="text-[2rem] font-extrabold leading-[1.05] text-navy sm:text-5xl">{o.title}</h1>
+            <p className="mt-3 text-lg font-medium text-ink/60">{o.organization}</p>
           </div>
 
-          {o.summary && <p className="text-lg leading-relaxed text-slate-700">{o.summary}</p>}
+      </div>
+
+      <div className="grid gap-6 lg:grid-cols-[1fr_320px] lg:gap-10">
+        <div className="space-y-6">
+          {o.summary && <p className="text-lg leading-relaxed text-ink/75">{o.summary}</p>}
 
           <Card className="grid gap-4 p-5 sm:grid-cols-2">
             {facts.map(({ icon: Icon, label, value }) => (
               <div key={label} className="flex gap-3">
-                <Icon className="mt-0.5 size-5 shrink-0 text-brand-500" />
+                <span className="grid size-9 shrink-0 place-items-center rounded-xl bg-navy/5 text-navy"><Icon className="size-[18px]" /></span>
                 <div>
-                  <p className="text-xs font-medium uppercase tracking-wide text-slate-400">{label}</p>
-                  <p className="text-sm text-slate-800">{value}</p>
+                  <p className="text-xs font-medium uppercase tracking-wide text-ink/40">{label}</p>
+                  <p className="text-sm text-ink">{value}</p>
                 </div>
               </div>
             ))}
@@ -137,7 +140,7 @@ export default async function OpportunityPage({ params }: PageProps<"/oportunida
             <Card className="relative overflow-hidden p-6 text-center">
               <Crown className="mx-auto size-8 text-amber-500" />
               <h2 className="mt-3 font-semibold">Oportunidad exclusiva Premium</h2>
-              <p className="mx-auto mt-1 max-w-sm text-sm text-slate-500">
+              <p className="mx-auto mt-1 max-w-sm text-sm text-ink/55">
                 Desbloquea los requisitos completos, beneficios y el enlace para postular.
               </p>
               <ButtonLink href="/planes" className="mt-4">
@@ -158,18 +161,18 @@ export default async function OpportunityPage({ params }: PageProps<"/oportunida
               )}
               {o.description && (
                 <Section title="Descripción">
-                  <div className="whitespace-pre-line text-sm leading-relaxed text-slate-700">{o.description}</div>
+                  <div className="whitespace-pre-line text-sm leading-relaxed text-ink/80">{o.description}</div>
                 </Section>
               )}
             </>
           )}
         </div>
 
-        <aside className="lg:sticky lg:top-24 lg:self-start">
-          <Card className="space-y-4 p-5">
+        <aside className="order-first lg:order-none lg:sticky lg:top-28 lg:self-start">
+          <Card className="space-y-4 p-6">
             <div>
-              <p className="text-xs font-medium uppercase tracking-wide text-slate-400">Fecha límite</p>
-              <p className="mt-1 text-lg font-semibold">
+              <p className="text-xs font-medium uppercase tracking-wide text-ink/40">Fecha límite</p>
+              <p className="mt-1 font-display text-2xl font-bold text-navy">
                 {o.rolling_deadline ? "Abierta todo el año" : (formatDate(o.deadline) ?? "Por confirmar")}
               </p>
               {!o.rolling_deadline && o.deadline && (
@@ -180,7 +183,7 @@ export default async function OpportunityPage({ params }: PageProps<"/oportunida
             </div>
 
             {applyUrl && !locked && !closed && (
-              <a href={applyUrl} target="_blank" rel="noopener noreferrer" className="flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-brand-600 text-sm font-semibold text-white shadow-sm hover:bg-brand-700">
+              <a href={applyUrl} target="_blank" rel="noopener noreferrer" className="flex h-13 w-full items-center justify-center gap-2 rounded-full bg-gradient-accent text-[15px] font-bold text-white shadow-[0_10px_28px_-12px_rgba(239,35,60,0.8)] transition hover:brightness-105">
                 Postular en el sitio oficial <ExternalLink className="size-4" />
               </a>
             )}
@@ -195,9 +198,9 @@ export default async function OpportunityPage({ params }: PageProps<"/oportunida
             )}
 
             {o.source && (
-              <p className="border-t border-slate-100 pt-4 text-xs text-slate-500">
+              <p className="border-t border-navy/8 pt-4 text-xs text-ink/55">
                 Fuente:{" "}
-                <a href={o.canonical_url ?? o.source.url} target="_blank" rel="noopener noreferrer" className="font-medium text-slate-700 hover:underline">
+                <a href={o.canonical_url ?? o.source.url} target="_blank" rel="noopener noreferrer" className="font-medium text-ink/80 hover:underline">
                   {o.source.name}
                 </a>
                 {o.source.tier === 1 && " · fuente oficial"}
@@ -214,7 +217,7 @@ export default async function OpportunityPage({ params }: PageProps<"/oportunida
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <section>
-      <h2 className="mb-3 text-lg font-semibold">{title}</h2>
+      <h2 className="mb-4 text-xl font-bold text-navy">{title}</h2>
       {children}
     </section>
   );
@@ -224,7 +227,7 @@ function List({ items }: { items: string[] }) {
   return (
     <ul className="space-y-2">
       {items.map((item) => (
-        <li key={item} className="flex gap-2.5 text-sm text-slate-700">
+        <li key={item} className="flex gap-2.5 text-sm text-ink/80">
           <CheckCircle2 className="mt-0.5 size-4 shrink-0 text-emerald-500" />
           {item}
         </li>

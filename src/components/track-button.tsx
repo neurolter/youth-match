@@ -14,7 +14,7 @@ export function TrackButton({ opportunityId, tracking, loggedIn }: { opportunity
 
   if (!loggedIn) {
     return (
-      <Link href={`/ingresar?siguiente=${encodeURIComponent(path)}`} className={`${cls} bg-white text-slate-800 ring-slate-200 hover:bg-slate-50`}>
+      <Link href={`/ingresar?siguiente=${encodeURIComponent(path)}`} className={`${cls} bg-white text-ink ring-navy/10 hover:bg-navy/5`}>
         <ClipboardPlus className="size-4" /> Postularé
       </Link>
     );
@@ -31,7 +31,7 @@ export function TrackButton({ opportunityId, tracking, loggedIn }: { opportunity
       type="button"
       disabled={pending}
       onClick={() => start(() => trackApplication(opportunityId, path))}
-      className={`${cls} bg-white text-slate-800 ring-slate-200 hover:bg-slate-50`}
+      className={`${cls} bg-white text-ink ring-navy/10 hover:bg-navy/5`}
     >
       <ClipboardPlus className="size-4" /> {pending ? "…" : "Postularé"}
     </button>

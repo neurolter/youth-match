@@ -4,7 +4,7 @@ import Link from "next/link";
 import { Compass } from "lucide-react";
 import { Filters } from "@/components/filters";
 import { OpportunityCard, OpportunityGrid } from "@/components/opportunity-card";
-import { ButtonLink, EmptyState } from "@/components/ui";
+import { ButtonLink, EmptyState, PageHeader } from "@/components/ui";
 import { getUser } from "@/lib/auth";
 import { PAGE_SIZE, savedIds, searchOpportunities } from "@/lib/queries";
 
@@ -28,11 +28,12 @@ export default async function DiscoverPage({ searchParams }: PageProps<"/descubr
   };
 
   return (
-    <div className="space-y-6">
-      <div>
-        <h1 className="text-2xl font-bold tracking-tight sm:text-3xl">Descubrir</h1>
-        <p className="mt-1 text-slate-500">Oportunidades internacionales abiertas, actualizadas cada día.</p>
-      </div>
+    <div className="space-y-7">
+      <PageHeader
+        eyebrow="Explora el mundo"
+        title="Descubrir"
+        description="Becas, intercambios, congresos y más, abiertos ahora y actualizados cada día."
+      />
 
       <Suspense>
         <Filters total={total} />
@@ -67,15 +68,15 @@ export default async function DiscoverPage({ searchParams }: PageProps<"/descubr
           {pages > 1 && (
             <nav className="flex items-center justify-center gap-3 pt-2" aria-label="Paginación">
               {page > 1 && (
-                <Link href={pageHref(page - 1)} className="rounded-xl bg-white px-4 py-2 text-sm font-medium ring-1 ring-slate-200 hover:bg-slate-50">
+                <Link href={pageHref(page - 1)} className="rounded-full bg-white px-5 py-2.5 text-sm font-semibold text-navy ring-1 ring-navy/12 hover:ring-navy/25">
                   ← Anterior
                 </Link>
               )}
-              <span className="text-sm text-slate-500">
+              <span className="text-sm font-medium text-ink/55">
                 Página {page} de {pages}
               </span>
               {page < pages && (
-                <Link href={pageHref(page + 1)} className="rounded-xl bg-white px-4 py-2 text-sm font-medium ring-1 ring-slate-200 hover:bg-slate-50">
+                <Link href={pageHref(page + 1)} className="rounded-full bg-white px-5 py-2.5 text-sm font-semibold text-navy ring-1 ring-navy/12 hover:ring-navy/25">
                   Siguiente →
                 </Link>
               )}

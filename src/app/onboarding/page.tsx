@@ -12,12 +12,12 @@ export default async function OnboardingPage() {
   if (!profile) redirect("/ingresar");
 
   return (
-    <div className="min-h-dvh bg-slate-50 px-4 py-6 sm:py-10">
+    <div className="min-h-dvh bg-paper px-4 py-6 sm:py-10">
       <div className="mx-auto max-w-2xl">
         <Logo className="text-lg" />
         <div className="mt-8 mb-8">
-          <h1 className="text-2xl font-bold tracking-tight sm:text-3xl">Personalicemos tus oportunidades</h1>
-          <p className="mt-2 text-slate-500">
+          <h1 className="text-[2rem] font-bold leading-[1.05] text-navy sm:text-[2.6rem]">Personalicemos tus oportunidades</h1>
+          <p className="mt-2 text-ink/55">
             Tres preguntas rápidas para mostrarte primero lo que de verdad encaja contigo. Puedes cambiarlo cuando quieras.
           </p>
         </div>

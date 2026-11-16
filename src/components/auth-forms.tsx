@@ -58,8 +58,8 @@ export function GoogleButton({ next }: { next: string }) {
 function Divider() {
   if (!GOOGLE_ENABLED) return null;
   return (
-    <div className="my-5 flex items-center gap-3 text-xs text-slate-400">
-      <span className="h-px flex-1 bg-slate-200" /> o <span className="h-px flex-1 bg-slate-200" />
+    <div className="my-5 flex items-center gap-3 text-xs text-ink/40">
+      <span className="h-px flex-1 bg-navy/10" /> o <span className="h-px flex-1 bg-navy/10" />
     </div>
   );
 }
@@ -73,13 +73,13 @@ export function SignInForm({ next }: { next: string }) {
     <div className="space-y-4">
       <GoogleButton next={next} />
       <Divider />
-      <div className="grid grid-cols-2 rounded-xl bg-slate-100 p-1 text-sm font-medium">
+      <div className="grid grid-cols-2 rounded-xl bg-navy/5 p-1 text-sm font-medium">
         {(["password", "magic"] as const).map((m) => (
           <button
             key={m}
             type="button"
             onClick={() => setMode(m)}
-            className={`rounded-lg py-2 transition ${mode === m ? "bg-white shadow-sm text-slate-900" : "text-slate-500"}`}
+            className={`rounded-lg py-2 transition ${mode === m ? "bg-white shadow-sm text-navy" : "text-ink/55"}`}
           >
             {m === "password" ? "Con contraseña" : "Sin contraseña"}
           </button>
@@ -112,7 +112,7 @@ export function SignInForm({ next }: { next: string }) {
             <Label htmlFor="ml-email">Correo</Label>
             <Input id="ml-email" name="email" type="email" autoComplete="email" required placeholder="tu@correo.com" />
           </div>
-          <p className="text-xs text-slate-500">Te enviaremos un enlace para entrar sin contraseña.</p>
+          <p className="text-xs text-ink/55">Te enviaremos un enlace para entrar sin contraseña.</p>
           <Feedback state={mlState} />
           <Submit>Enviarme el enlace</Submit>
         </form>
@@ -140,7 +140,7 @@ export function SignUpForm() {
           <Label htmlFor="password">Contraseña</Label>
           <Input id="password" name="password" type="password" autoComplete="new-password" minLength={8} required placeholder="Mínimo 8 caracteres" />
         </div>
-        <label className="flex items-start gap-2.5 text-sm text-slate-600">
+        <label className="flex items-start gap-2.5 text-sm text-ink/70">
           <input type="checkbox" name="terms" className="mt-0.5 size-4 rounded accent-brand-600" required />
           <span>
             Acepto los <Link href="/terminos" className="font-medium text-brand-600 hover:underline">términos</Link> y la{" "}

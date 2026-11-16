@@ -31,8 +31,8 @@ function Chips({
           <label
             key={value}
             className={clsx(
-              "inline-flex cursor-pointer select-none items-center gap-1.5 rounded-full px-3.5 py-2 text-sm font-medium ring-1 transition",
-              on ? "bg-brand-600 text-white ring-brand-600" : "bg-white text-slate-700 ring-slate-200 hover:ring-slate-300",
+              "inline-flex cursor-pointer select-none items-center gap-1.5 rounded-full px-4 py-2.5 text-sm font-semibold ring-1 transition active:scale-95",
+              on ? "bg-navy text-white ring-navy" : "bg-white text-ink/80 ring-navy/10 hover:ring-navy/20",
             )}
           >
             <input
@@ -78,8 +78,8 @@ export function ProfileForm({ profile, mode }: { profile: Profile; mode: "onboar
         <ol className="flex gap-2">
           {STEPS.map((s, i) => (
             <li key={s} className="flex-1">
-              <div className={clsx("h-1.5 rounded-full", i <= step ? "bg-brand-600" : "bg-slate-200")} />
-              <p className={clsx("mt-2 text-xs font-medium", i === step ? "text-brand-700" : "text-slate-400")}>{s}</p>
+              <div className={clsx("h-1.5 rounded-full", i <= step ? "bg-gradient-accent" : "bg-navy/10")} />
+              <p className={clsx("mt-2 text-xs font-medium", i === step ? "text-brand-700" : "text-ink/40")}>{s}</p>
             </li>
           ))}
         </ol>
@@ -157,11 +157,11 @@ export function ProfileForm({ profile, mode }: { profile: Profile; mode: "onboar
           <Label>¿A dónde te gustaría ir?</Label>
           <Chips name="regions" options={Object.entries(REGIONS)} defaultValue={profile.regions} />
         </div>
-        <label className="flex items-center gap-3 rounded-xl bg-white p-4 ring-1 ring-slate-200">
+        <label className="flex items-center gap-3 rounded-xl bg-white p-4 ring-1 ring-navy/10">
           <input type="checkbox" name="only_funded" defaultChecked={profile.only_funded} className="size-5 accent-brand-600" />
           <span>
             <span className="block text-sm font-medium">Solo oportunidades con financiamiento</span>
-            <span className="block text-xs text-slate-500">Ocultaremos las que no cubren ningún costo.</span>
+            <span className="block text-xs text-ink/55">Ocultaremos las que no cubren ningún costo.</span>
           </span>
         </label>
       </section>

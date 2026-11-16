@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Sparkles } from "lucide-react";
 import { OpportunityCard, OpportunityGrid } from "@/components/opportunity-card";
-import { ButtonLink, EmptyState } from "@/components/ui";
+import { ButtonLink, EmptyState, PageHeader } from "@/components/ui";
 import { createClient } from "@/lib/supabase/server";
 import { hasPremium, requireOnboardedProfile } from "@/lib/auth";
 import { CARD_COLUMNS, matchOpportunities, todayISO, type OpportunityCardData } from "@/lib/opportunities";
@@ -33,16 +33,17 @@ export default async function ForYouPage() {
   const firstName = profile.full_name?.split(" ")[0];
 
   return (
-    <div className="space-y-6">
-      <div className="flex flex-wrap items-end justify-between gap-3">
-        <div>
-          <h1 className="text-2xl font-bold tracking-tight sm:text-3xl">{firstName ? `Hola, ${firstName} 👋` : "Para ti"}</h1>
-          <p className="mt-1 text-slate-500">Oportunidades elegidas según tu perfil, ordenadas por compatibilidad.</p>
-        </div>
-        <Link href="/perfil" className="text-sm font-medium text-brand-600 hover:underline">
-          Ajustar mis preferencias
-        </Link>
-      </div>
+    <div className="space-y-7">
+      <PageHeader
+        eyebrow="Elegidas para ti"
+        title={firstName ? <>Hola, {firstName} <span className="inline-block animate-[float_3s_ease-in-out_infinite]">👋</span></> : "Para ti"}
+        description="Ordenadas según qué tan bien encajan con tu perfil."
+        action={
+          <Link href="/perfil" className="rounded-full bg-white px-4 py-2.5 text-sm font-semibold text-navy ring-1 ring-navy/12 hover:ring-navy/25">
+            Ajustar preferencias
+          </Link>
+        }
+      />
 
       {visible.length === 0 ? (
         <EmptyState
@@ -59,12 +60,14 @@ export default async function ForYouPage() {
             ))}
           </OpportunityGrid>
           {!premium && matches.length > FREE_LIMIT && (
-            <div className="rounded-2xl bg-gradient-to-br from-brand-600 to-brand-800 p-6 text-white sm:flex sm:items-center sm:justify-between sm:gap-6">
-              <div>
-                <p className="text-lg font-semibold">Tienes {matches.length - FREE_LIMIT} coincidencias más esperándote</p>
-                <p className="mt-1 text-sm text-brand-100">Con Premium ves todas tus recomendaciones y recibes alertas antes de que cierren.</p>
+            <div className="bg-globe grain relative overflow-hidden rounded-[1.6rem] p-6 text-white sm:flex sm:items-center sm:justify-between sm:gap-6 sm:p-8">
+              <div className="relative">
+                <p className="font-display text-2xl font-bold">
+                  Tienes <span className="text-gradient-accent">{matches.length - FREE_LIMIT} coincidencias más</span> esperándote
+                </p>
+                <p className="mt-1.5 text-sm text-white/70">Con Premium ves todas tus recomendaciones y recibes alertas antes de que cierren.</p>
               </div>
-              <ButtonLink href="/planes" variant="secondary" className="mt-4 shrink-0 sm:mt-0">
+              <ButtonLink href="/planes" variant="accent" className="relative mt-5 shrink-0 sm:mt-0">
                 Ver Premium
               </ButtonLink>
             </div>

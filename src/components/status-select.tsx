@@ -23,7 +23,7 @@ export function StatusSelect({ id, status }: { id: string; status: ApplicationSt
         });
       }}
       className={clsx(
-        "h-10 rounded-xl border-0 px-3 text-sm font-medium ring-1 ring-slate-200 focus:outline-none focus:ring-2 focus:ring-brand-500",
+        "h-10 rounded-xl border-0 px-3 text-sm font-medium ring-1 ring-navy/10 focus:outline-none focus:ring-2 focus:ring-brand-500",
         APPLICATION_STATUS[value].color,
       )}
     >

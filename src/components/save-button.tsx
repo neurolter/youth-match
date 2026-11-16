@@ -27,18 +27,18 @@ export function SaveButton({
   const cls =
     variant === "icon"
       ? clsx(
-          "grid size-9 place-items-center rounded-full transition",
-          optimistic ? "bg-brand-600 text-white" : "bg-white/90 text-slate-600 ring-1 ring-slate-200 hover:text-brand-600",
+          "grid size-11 place-items-center rounded-full transition active:scale-90",
+          optimistic ? "bg-accent-500 text-white shadow-md shadow-accent-500/30" : "text-ink/45 hover:bg-navy/5 hover:text-navy",
         )
       : clsx(
-          "inline-flex h-11 items-center justify-center gap-2 rounded-xl px-4 text-sm font-semibold transition",
-          optimistic ? "bg-brand-50 text-brand-700 ring-1 ring-brand-200" : "bg-white text-slate-800 ring-1 ring-slate-200 hover:bg-slate-50",
+          "inline-flex h-12 w-full items-center justify-center gap-2 rounded-full px-4 text-sm font-semibold transition active:translate-y-px",
+          optimistic ? "bg-accent-500/10 text-accent-600 ring-1 ring-accent-500/30" : "bg-white text-ink ring-1 ring-navy/12 hover:ring-navy/25",
         );
 
   if (!loggedIn) {
     return (
       <Link href={`/ingresar?siguiente=${encodeURIComponent(path)}`} className={cls} aria-label="Guardar" title="Ingresa para guardar">
-        <Bookmark className="size-4" />
+        <Bookmark className="size-[18px]" />
         {variant === "full" && "Guardar"}
       </Link>
     );
@@ -62,13 +62,13 @@ export function SaveButton({
           });
         }}
       >
-        <Bookmark className={clsx("size-4", optimistic && "fill-current")} />
+        <Bookmark className={clsx("size-[18px]", optimistic && "fill-current")} />
         {variant === "full" && label}
       </button>
       {limit && (
-        <div className="absolute right-0 top-11 z-10 w-60 rounded-xl bg-slate-900 p-3 text-xs text-white shadow-lg">
+        <div role="status" className="absolute right-0 top-12 z-20 w-64 rounded-2xl bg-navy p-3.5 text-xs leading-relaxed text-white shadow-xl">
           Llegaste al límite de 10 guardadas del plan Gratis.{" "}
-          <Link href="/planes" className="font-semibold text-accent-400 underline">
+          <Link href="/planes" className="font-bold text-accent-400 underline">
             Pásate a Premium
           </Link>
         </div>

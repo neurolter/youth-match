@@ -1,48 +1,157 @@
 @import "tailwindcss";
 
+/*
+ * Youth Match — sistema visual "pase de abordar"
+ * Azul marino del globo como base, degradado amanecer de la flecha como acento,
+ * tarjetas como boletos de viaje. Tipografía: Bricolage Grotesque (títulos) +
+ * Plus Jakarta Sans (texto).
+ */
+
 @theme {
-  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
-  /* Colores del logo de Youth Match */
+  --font-sans: "Plus Jakarta Sans Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Bricolage Grotesque Variable", "Plus Jakarta Sans Variable", ui-sans-serif, sans-serif;
+
   --color-brand-50: #eff5ff;
   --color-brand-100: #dbe8ff;
   --color-brand-200: #bcd4ff;
   --color-brand-300: #8fb6fb;
+  --color-brand-400: #5b90f3;
   --color-brand-500: #2f6fe4;
   --color-brand-600: #1a56d6;
   --color-brand-700: #1443ad;
   --color-brand-800: #0f3380;
   --color-brand-900: #0b1f52;
+  --color-brand-950: #060f2e;
   --color-navy: #0b1f52;
+  --color-ink: #0d1530;
+  --color-paper: #f6f4ef;
+
+  --color-accent-300: #fde68a;
   --color-accent-400: #fbbf24;
   --color-accent-500: #f97316;
   --color-accent-600: #ef233c;
+
+  --animate-rise: rise 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  --animate-float: float 7s ease-in-out infinite;
+  --animate-dash: dash 2.4s ease-in-out infinite;
+
+  @keyframes rise {
+    from { opacity: 0; transform: translateY(14px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes float {
+    0%, 100% { transform: translateY(0) rotate(-2deg); }
+    50% { transform: translateY(-10px) rotate(1deg); }
+  }
+  @keyframes dash {
+    0% { stroke-dashoffset: 120; }
+    60%, 100% { stroke-dashoffset: 0; }
+  }
 }
 
-html {
-  -webkit-tap-highlight-color: transparent;
-}
-
-body {
-  @apply bg-slate-50 text-slate-900 antialiased;
-}
-
-/* Espacio para la barra inferior en móvil */
-.pb-safe {
-  padding-bottom: calc(5rem + env(safe-area-inset-bottom));
-}
-@media (min-width: 768px) {
-  .pb-safe {
-    padding-bottom: 2rem;
+@layer base {
+  html {
+    -webkit-tap-highlight-color: transparent;
+    text-rendering: optimizeLegibility;
+  }
+  body {
+    @apply bg-paper font-sans text-ink antialiased;
+  }
+  h1, h2, h3, .font-display {
+    font-family: var(--font-display);
+    font-optical-sizing: auto;
+    letter-spacing: -0.02em;
+  }
+  ::selection {
+    background: #fde68a;
+    color: #0b1f52;
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-brand-500);
+    outline-offset: 2px;
   }
 }
 
 /* Degradado de la flecha del logo: rojo → naranja → amarillo */
 .text-gradient-accent {
-  background: linear-gradient(90deg, #ef233c, #f97316 55%, #facc15);
+  background: linear-gradient(95deg, #ef233c 0%, #f97316 50%, #facc15 100%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
 }
 .bg-gradient-accent {
-  background: linear-gradient(90deg, #ef233c, #f97316 55%, #facc15);
+  background: linear-gradient(95deg, #ef233c 0%, #f97316 50%, #facc15 100%);
+}
+
+/* Fondo nocturno con anillos (como el globo del logo) */
+.bg-globe {
+  background-color: var(--color-brand-950);
+  background-image:
+    radial-gradient(60rem 40rem at 85% -10%, rgba(47, 111, 228, 0.45), transparent 60%),
+    radial-gradient(40rem 30rem at -10% 110%, rgba(249, 115, 22, 0.22), transparent 60%),
+    repeating-radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.05) 0 1px, transparent 1px 64px);
+}
+.bg-dots {
+  background-image: radial-gradient(rgba(11, 31, 82, 0.08) 1px, transparent 1px);
+  background-size: 22px 22px;
+}
+
+/* Grano sutil para dar textura */
+.grain::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.06;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* Perforación de boleto: muescas a los lados + línea punteada */
+.ticket-perf {
+  position: relative;
+  border-top: 2px dashed rgba(11, 31, 82, 0.12);
+}
+.ticket-perf::before,
+.ticket-perf::after {
+  content: "";
+  position: absolute;
+  top: -11px;
+  width: 20px;
+  height: 20px;
+  border-radius: 9999px;
+  background: var(--ticket-bg, var(--color-paper));
+}
+.ticket-perf::before { left: -10px; }
+.ticket-perf::after { right: -10px; }
+
+/* Revelado escalonado al cargar */
+.stagger > * {
+  animation: var(--animate-rise);
+}
+.stagger > *:nth-child(1) { animation-delay: 0.02s; }
+.stagger > *:nth-child(2) { animation-delay: 0.07s; }
+.stagger > *:nth-child(3) { animation-delay: 0.12s; }
+.stagger > *:nth-child(4) { animation-delay: 0.17s; }
+.stagger > *:nth-child(5) { animation-delay: 0.22s; }
+.stagger > *:nth-child(6) { animation-delay: 0.27s; }
+.stagger > *:nth-child(n + 7) { animation-delay: 0.3s; }
+
+.no-scrollbar { scrollbar-width: none; }
+.no-scrollbar::-webkit-scrollbar { display: none; }
+
+/* Espacio para la barra inferior en móvil */
+.pb-safe {
+  padding-bottom: calc(6.5rem + env(safe-area-inset-bottom));
+}
+@media (min-width: 768px) {
+  .pb-safe { padding-bottom: 3rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }

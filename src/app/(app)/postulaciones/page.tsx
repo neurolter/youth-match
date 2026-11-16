@@ -29,8 +29,8 @@ export default async function ApplicationsPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-bold tracking-tight sm:text-3xl">Mis postulaciones</h1>
-        <p className="mt-1 text-slate-500">Lleva el control de cada oportunidad a la que vas a postular.</p>
+        <h1 className="text-[2rem] font-bold leading-[1.05] text-navy sm:text-[2.6rem]">Mis postulaciones</h1>
+        <p className="mt-1 text-ink/55">Lleva el control de cada oportunidad a la que vas a postular.</p>
       </div>
 
       {apps.length === 0 ? (
@@ -44,9 +44,9 @@ export default async function ApplicationsPage() {
         <>
           <div className="grid grid-cols-2 gap-2 sm:grid-cols-5">
             {counts.map(({ status, n }) => (
-              <div key={status} className="rounded-xl bg-white p-3 ring-1 ring-slate-200/70">
+              <div key={status} className="rounded-xl bg-white p-3 ring-1 ring-navy/8">
                 <p className="text-2xl font-bold">{n}</p>
-                <p className="text-xs text-slate-500">{APPLICATION_STATUS[status].label}</p>
+                <p className="text-xs text-ink/55">{APPLICATION_STATUS[status].label}</p>
               </div>
             ))}
           </div>
@@ -58,7 +58,7 @@ export default async function ApplicationsPage() {
                 <Card key={a.id} className="flex flex-col gap-4 p-4 sm:flex-row sm:items-center">
                   <div className="min-w-0 flex-1">
                     <div className="flex flex-wrap items-center gap-1.5">
-                      <span className="text-xs text-slate-500">
+                      <span className="text-xs text-ink/55">
                         {typeLabel(o.type).emoji} {typeLabel(o.type).label}
                       </span>
                       <Badge tone={dl.tone}>{dl.text}</Badge>
@@ -66,7 +66,7 @@ export default async function ApplicationsPage() {
                     <Link href={`/oportunidad/${o.slug}`} className="mt-1 block truncate font-semibold hover:text-brand-600">
                       {o.title}
                     </Link>
-                    <p className="text-sm text-slate-500">{o.organization}</p>
+                    <p className="text-sm text-ink/55">{o.organization}</p>
                   </div>
                   <div className="flex items-center gap-2">
                     <StatusSelect id={a.id} status={a.status as ApplicationStatus} />
@@ -74,7 +74,7 @@ export default async function ApplicationsPage() {
                       <input type="hidden" name="id" value={a.id} />
                       <button
                         type="submit"
-                        className="grid size-10 place-items-center rounded-xl text-slate-400 ring-1 ring-slate-200 hover:bg-rose-50 hover:text-rose-600"
+                        className="grid size-10 place-items-center rounded-xl text-ink/40 ring-1 ring-navy/10 hover:bg-rose-50 hover:text-rose-600"
                         aria-label="Quitar de mis postulaciones"
                       >
                         <Trash2 className="size-4" />

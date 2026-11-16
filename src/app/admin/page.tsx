@@ -46,14 +46,14 @@ export default async function AdminPage() {
   }
 
   return (
-    <div className="min-h-dvh bg-slate-50">
-      <header className="border-b border-slate-200 bg-white">
+    <div className="min-h-dvh bg-paper">
+      <header className="border-b border-navy/10 bg-white">
         <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6">
           <div className="flex items-center gap-3">
             <Logo />
             <Badge>Admin</Badge>
           </div>
-          <Link href="/descubrir" className="inline-flex items-center gap-1.5 text-sm font-medium text-slate-600 hover:text-slate-900">
+          <Link href="/descubrir" className="inline-flex items-center gap-1.5 text-sm font-medium text-ink/70 hover:text-navy">
             <ArrowLeft className="size-4" /> Volver a la app
           </Link>
         </div>
@@ -69,7 +69,7 @@ export default async function AdminPage() {
           ].map(([label, n]) => (
             <Card key={label} className="p-4">
               <p className="text-2xl font-bold">{n}</p>
-              <p className="text-sm text-slate-500">{label}</p>
+              <p className="text-sm text-ink/55">{label}</p>
             </Card>
           ))}
         </div>
@@ -77,25 +77,25 @@ export default async function AdminPage() {
         <section>
           <h2 className="mb-3 text-lg font-semibold">Cola de revisión</h2>
           {queue?.length ? (
-            <Card className="divide-y divide-slate-100">
+            <Card className="divide-y divide-navy/8">
               {queue.map((o) => (
                 <div key={o.id} className="flex flex-col gap-3 p-4 sm:flex-row sm:items-center">
                   <div className="min-w-0 flex-1">
-                    <p className="text-xs text-slate-500">
+                    <p className="text-xs text-ink/55">
                       {typeLabel(o.type).label} · {o.source?.name ?? "Organizador"} · confianza {o.trust_score}
                       {o.deadline && ` · cierra ${formatDate(o.deadline, { day: "numeric", month: "short" })}`}
                     </p>
                     <Link href={`/oportunidad/${o.slug}`} className="block truncate font-medium hover:text-brand-600">
                       {o.title}
                     </Link>
-                    <p className="text-sm text-slate-500">{o.organization}</p>
+                    <p className="text-sm text-ink/55">{o.organization}</p>
                   </div>
                   <form action={reviewOpportunity} className="flex gap-2">
                     <input type="hidden" name="id" value={o.id} />
                     <button name="decision" value="publicada" className="rounded-lg bg-emerald-600 px-3 py-2 text-sm font-semibold text-white hover:bg-emerald-700">
                       Publicar
                     </button>
-                    <button name="decision" value="rechazada" className="rounded-lg bg-white px-3 py-2 text-sm font-semibold text-rose-600 ring-1 ring-slate-200 hover:bg-rose-50">
+                    <button name="decision" value="rechazada" className="rounded-lg bg-white px-3 py-2 text-sm font-semibold text-rose-600 ring-1 ring-navy/10 hover:bg-rose-50">
                       Rechazar
                     </button>
                   </form>
@@ -103,7 +103,7 @@ export default async function AdminPage() {
               ))}
             </Card>
           ) : (
-            <p className="text-sm text-slate-500">No hay oportunidades pendientes de revisión.</p>
+            <p className="text-sm text-ink/55">No hay oportunidades pendientes de revisión.</p>
           )}
         </section>
 
@@ -111,7 +111,7 @@ export default async function AdminPage() {
           <h2 className="mb-3 text-lg font-semibold">Fuentes ({sources?.length ?? 0})</h2>
           <Card className="overflow-x-auto">
             <table className="w-full min-w-[720px] text-left text-sm">
-              <thead className="border-b border-slate-100 text-xs uppercase tracking-wide text-slate-400">
+              <thead className="border-b border-navy/8 text-xs uppercase tracking-wide text-ink/40">
                 <tr>
                   <th className="p-3 font-medium">Fuente</th>
                   <th className="p-3 font-medium">Tipo</th>
@@ -122,7 +122,7 @@ export default async function AdminPage() {
                   <th className="p-3 font-medium">Estado</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-100">
+              <tbody className="divide-y divide-navy/8">
                 {(sources ?? []).map((s) => {
                   const c = bySource.get(s.id);
                   return (
@@ -131,18 +131,18 @@ export default async function AdminPage() {
                         <a href={s.url} target="_blank" rel="noopener noreferrer" className="font-medium hover:text-brand-600">
                           {s.name}
                         </a>
-                        <p className="text-xs text-slate-400">{s.language.toUpperCase()} · cada {s.frequency_hours} h</p>
+                        <p className="text-xs text-ink/40">{s.language.toUpperCase()} · cada {s.frequency_hours} h</p>
                       </td>
-                      <td className="p-3 text-slate-600">{KIND[s.kind] ?? s.kind}</td>
+                      <td className="p-3 text-ink/70">{KIND[s.kind] ?? s.kind}</td>
                       <td className="p-3">
                         <Badge tone={TIER[s.tier].tone}>{TIER[s.tier].label}</Badge>
                       </td>
-                      <td className="p-3 text-slate-600">{s.priority}</td>
-                      <td className="p-3 text-slate-600">
+                      <td className="p-3 text-ink/70">{s.priority}</td>
+                      <td className="p-3 text-ink/70">
                         {c?.publicada ?? 0}
                         {c?.revision ? <span className="text-amber-600"> (+{c.revision} en revisión)</span> : null}
                       </td>
-                      <td className="p-3 text-slate-600">{s.last_run_at ? formatDate(s.last_run_at.slice(0, 10), { day: "numeric", month: "short" }) : "Nunca"}</td>
+                      <td className="p-3 text-ink/70">{s.last_run_at ? formatDate(s.last_run_at.slice(0, 10), { day: "numeric", month: "short" }) : "Nunca"}</td>
                       <td className="p-3">
                         <form action={toggleSource}>
                           <input type="hidden" name="id" value={s.id} />
@@ -163,20 +163,20 @@ export default async function AdminPage() {
         <section>
           <h2 className="mb-3 text-lg font-semibold">Últimas ejecuciones del importador</h2>
           {runs?.length ? (
-            <Card className="divide-y divide-slate-100 text-sm">
+            <Card className="divide-y divide-navy/8 text-sm">
               {runs.map((r) => (
                 <div key={r.id} className="flex flex-wrap items-center gap-x-4 gap-y-1 p-3">
                   <span className="font-medium">{r.source?.name}</span>
                   <Badge tone={r.status === "ok" ? "green" : r.status === "error" ? "red" : "amber"}>{r.status}</Badge>
-                  <span className="text-slate-500">
+                  <span className="text-ink/55">
                     {r.found} encontradas · {r.created} nuevas · {r.updated} actualizadas · {r.expired} expiradas
                   </span>
-                  <span className="ml-auto text-xs text-slate-400">{new Date(r.started_at).toLocaleString("es-EC", { timeZone: "America/Guayaquil" })}</span>
+                  <span className="ml-auto text-xs text-ink/40">{new Date(r.started_at).toLocaleString("es-EC", { timeZone: "America/Guayaquil" })}</span>
                 </div>
               ))}
             </Card>
           ) : (
-            <p className="text-sm text-slate-500">El importador todavía no se ha ejecutado.</p>
+            <p className="text-sm text-ink/55">El importador todavía no se ha ejecutado.</p>
           )}
         </section>
       </main>
