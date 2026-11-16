@@ -32,3 +32,19 @@ Becas.com, Portal Europeo de la Juventud, One Young World, YLAI, Türkiye Bursla
 ## Descartadas
 
 - **Canal de Telegram del prototipo**: no se puede verificar, es de baja confianza y es difícil de atribuir.
+
+## Estado de los conectores (noviembre de 2026)
+
+| Fuente | Conector | Cómo se lee |
+|---|---|---|
+| Becas Santander | `santander.ts` | Sitemaps públicos (`/sitemaps/soa-courses-es.xml`, `soa-grants-es.xml`) + la API JSON pública que usa su página (`api-manager.universia.net/.../programs/<slug>`); navegador headless como plan B. Da estado (abierta/cerrada), fecha en hora de Madrid y países elegibles. Ojo: `/es/programs` ya no existe (404). |
+| Fundación Carolina | `carolina.ts` | HTML. El listado marca cada programa con «Plazo Cerrado»; solo se visitan los abiertos. |
+| SENESCYT / Globo Común | `senescyt.ts` | WordPress. Índices `/convocatorias/`, `/becas-cuarto-nivel/` y `/becas-tercer-nivel/`. Cada página trae «POSTULA HASTA» y las bases en PDF o ZIP (se leen ambos). |
+| Voluntarios ONU | `unv.ts` | Solo headless (sitio protegido contra bots). Usa la búsqueda JSON de la propia página. Descarta asignaciones nacionales fuera de Latinoamérica. |
+| Becas OEA | `oea.ts` | La página enlaza las convocatorias en PDF; se lee cada PDF. |
+| One Young World | `one-young-world.ts` | HTML: `/scholarships` → `/scholarship/<slug>`. |
+| Opportunity Desk, Opportunities Corners, Scholarships Corner | `rss.ts` | RSS + página de cada publicación; se sigue el enlace a la fuente oficial. |
+| YouthOp – Conferencias | `youthop.ts` | HTML. **Sin verificar:** el sitio respondía error 524 al construir el conector. |
+| Opportunities for Youth, OYAOP, INDESGUA | `rss.ts` | Mismo conector genérico de RSS. |
+
+**Pendientes (sin conector):** Chevening, DAAD, Erasmus Mundus, Eurodesk, Fulbright Ecuador, pasantías ONU, YouthOp general, GKS Corea, AMEXCID, Portal Europeo de la Juventud, Stipendium Hungaricum, Türkiye Burslari, YLAI, Becas.com. Son programas de una sola convocatoria anual o bases de datos con buscador: cada uno necesita su conector propio.
