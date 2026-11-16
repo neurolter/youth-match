@@ -3,7 +3,7 @@
 import { INTERESTS } from "../lib/constants";
 
 export const USER_AGENT =
-  "YouthMatchBot/1.0 (+https://youth-matchdos.vercel.app; importador de oportunidades para jóvenes)";
+  "YouthMatchBot/1.0 (+https://youthmatch.app; importador de oportunidades para jóvenes)";
 
 export const TYPES = [
   "beca", "intercambio", "congreso", "voluntariado", "pasantia", "competencia",
