@@ -186,6 +186,16 @@ export async function runSource(source: Source, deps: Deps): Promise<RunResult> 
           continue;
         }
 
+        // Ahorro: la misma publicación ya la procesó otra fuente (p. ej. el feed de
+        // conferencias y el feed general de Opportunities Corners). No se paga la IA dos veces.
+        if (!deps.force) {
+          const other = await store.pageElsewhere(item.url, hash, source.id);
+          if (other && SETTLED.has(other.last_result ?? "")) {
+            await store.savePage({ ...row, opportunity_id: null, last_result: "duplicada" });
+            continue;
+          }
+        }
+
         const ex = await deps.extract(page, source, today);
         if (!ex.is_opportunity) {
           await store.savePage({ ...row, opportunity_id: prev?.opportunity_id ?? null, last_result: "descartada" });

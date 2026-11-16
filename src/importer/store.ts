@@ -46,6 +46,8 @@ export interface Store {
   /** Estados de las últimas ejecuciones terminadas de una fuente, de la más nueva a la más vieja. */
   lastRunStatuses(sourceId: string, n: number): Promise<string[]>;
   pages(sourceId: string): Promise<PageRow[]>;
+  /** Una página con la misma URL y contenido ya procesada por OTRA fuente (para no pagar la IA dos veces). */
+  pageElsewhere(url: string, contentHash: string, exceptSourceId: string): Promise<PageRow | null>;
   savePage(row: Omit<PageRow, "id" | "last_seen_at" | "missed_runs"> & { missed_runs?: number }): Promise<void>;
   setMissed(pageIds: string[], missedRuns: number): Promise<void>;
   opportunity(id: string): Promise<Opp | null>;
@@ -126,6 +128,18 @@ export class SupabaseStore implements Store {
       all.push(...rows);
       if (rows.length < 1000) return all;
     }
+  }
+
+  async pageElsewhere(url: string, contentHash: string, exceptSourceId: string) {
+    const res = await this.db
+      .from("import_pages")
+      .select("*")
+      .eq("url", url)
+      .eq("content_hash", contentHash)
+      .neq("source_id", exceptSourceId)
+      .limit(1);
+    const rows = this.check(res, "buscar página en otras fuentes") as PageRow[];
+    return rows[0] ?? null;
   }
 
   async savePage(row: Omit<PageRow, "id" | "last_seen_at" | "missed_runs"> & { missed_runs?: number }) {

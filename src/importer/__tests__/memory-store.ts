@@ -26,6 +26,10 @@ export class MemoryStore implements Store {
     return this.runs.filter((r) => r.source_id === sourceId && r.result).map((r) => r.result!.status).reverse().slice(0, n);
   }
   async pages(sourceId: string) { return this.pageRows.filter((p) => p.source_id === sourceId).map((p) => ({ ...p })); }
+  async pageElsewhere(url: string, hash: string, except: string) {
+    const p = this.pageRows.find((r) => r.url === url && r.content_hash === hash && r.source_id !== except);
+    return p ? { ...p } : null;
+  }
   async savePage(row: Omit<PageRow, "id" | "last_seen_at" | "missed_runs"> & { missed_runs?: number }) {
     const prev = this.pageRows.find((p) => p.source_id === row.source_id && p.url === row.url);
     const next = { missed_runs: 0, ...row, last_seen_at: new Date(Date.now() + ++this.n).toISOString() };
