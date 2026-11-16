@@ -1,0 +1,76 @@
+name: Importador de oportunidades
+
+on:
+  # Cada 6 horas (minuto 17 para evitar la hora punta de GitHub). Cada fuente
+  # decide si le toca según su `frequency_hours` en la tabla `sources`.
+  schedule:
+    - cron: "17 */6 * * *"
+  # Ejecución manual: pestaña Actions → "Importador de oportunidades" → "Run workflow".
+  workflow_dispatch:
+    inputs:
+      fuente:
+        description: "Una sola fuente (slug, p. ej. becas-santander). Vacío = las que toquen"
+        required: false
+        default: ""
+      todas:
+        description: "Ejecutar todas las fuentes activas, sin mirar la frecuencia"
+        type: boolean
+        default: false
+      forzar:
+        description: "Volver a leer con IA aunque la página no haya cambiado (gasta más)"
+        type: boolean
+        default: false
+
+# Nunca dos importaciones a la vez.
+concurrency:
+  group: importador
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  importar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      # El navegador de Playwright pesa unos 150 MB: se guarda en caché para no
+      # descargarlo en cada ejecución (ahorra minutos).
+      - name: Versión de Playwright
+        id: pw
+        run: echo "version=$(node -p "require('playwright/package.json').version")" >> "$GITHUB_OUTPUT"
+
+      - name: Caché del navegador
+        id: pw-cache
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ runner.os }}-${{ steps.pw.outputs.version }}
+
+      - name: Instalar navegador (solo si no está en caché)
+        if: steps.pw-cache.outputs.cache-hit != 'true'
+        run: npx playwright install --with-deps chromium
+
+      - name: Dependencias del sistema para el navegador
+        if: steps.pw-cache.outputs.cache-hit == 'true'
+        run: npx playwright install-deps chromium
+
+      - name: Importar
+        run: npm run importar
+        env:
+          NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
+          SUPABASE_SECRET_KEY: ${{ secrets.SUPABASE_SECRET_KEY }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          IMPORT_FUENTE: ${{ inputs.fuente }}
+          IMPORT_TODAS: ${{ inputs.todas }}
+          IMPORT_FORZAR: ${{ inputs.forzar }}
