@@ -126,14 +126,18 @@ export const santander: Connector = {
   maxPages: 250, // la API responde rápido y las convocatorias cerradas no gastan IA
   async list(ctx) {
     const items: ListItem[] = [];
+    const reasons: string[] = [];
     for (const url of SITEMAPS) {
       try {
         items.push(...parseSitemap(await ctx.http.text(url)));
       } catch (e) {
-        ctx.log(`  sitemap no disponible (${url}): ${e instanceof Error ? e.message : e}`);
+        const reason = e instanceof Error ? e.message : String(e);
+        reasons.push(reason);
+        ctx.log(`  sitemap no disponible (${url}): ${reason}`);
       }
     }
-    if (!items.length) throw new Error("No se pudo leer ningún sitemap de Santander Open Academy");
+    // El motivo exacto (403, robots.txt, tiempo agotado…) queda en el resumen de GitHub.
+    if (!items.length) throw new Error(`No se pudo leer ningún sitemap de Santander Open Academy (${reasons.join(" | ")})`);
     return items;
   },
   async detail(item, ctx) {
