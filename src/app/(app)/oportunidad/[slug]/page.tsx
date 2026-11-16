@@ -145,7 +145,7 @@ export default async function OpportunityPage({ params }: PageProps<"/oportunida
               <ShieldCheck className="mt-0.5 size-4 shrink-0" />
               <p>
                 <b>Verifica los costos antes de postular.</b> No pudimos confirmar todos los datos con una fuente oficial. Revisa en el
-                sitio del organizador si cobran inscripción u otros pagos. Nunca pagues para "asegurar" un cupo.
+                sitio del organizador si cobran inscripción u otros pagos. Nunca pagues para &ldquo;asegurar&rdquo; un cupo.
               </p>
             </div>
           )}
