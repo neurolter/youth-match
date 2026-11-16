@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import { Crown, LogOut } from "lucide-react";
 import { ProfileForm } from "@/components/profile-form";
+import { InstallSection } from "@/components/install-app";
 import { Button, ButtonLink, Card } from "@/components/ui";
 import { getProfile, getUser, hasPremium, requireUser } from "@/lib/auth";
 import { signOut } from "@/app/auth/actions";
@@ -19,6 +20,8 @@ export default async function ProfilePage() {
         <h1 className="text-[2rem] font-bold leading-[1.05] text-navy sm:text-[2.6rem]">Mi perfil</h1>
         <p className="mt-1 text-ink/55">{user?.email}</p>
       </div>
+
+      <InstallSection />
 
       <Card className="flex items-center justify-between gap-4 p-5">
         <div className="flex items-center gap-3">

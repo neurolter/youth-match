@@ -12,7 +12,7 @@ import { TrackButton } from "@/components/track-button";
 import { createClient } from "@/lib/supabase/server";
 import { getProfile, getUser, hasPremium } from "@/lib/auth";
 import { EDUCATION_LEVELS, FUNDING, LANGUAGES, MODALITIES, countryName, type EducationLevel, type Funding } from "@/lib/constants";
-import { deadlineLabel, eligibleFor, formatDate, regionLabel, typeLabel } from "@/lib/opportunities";
+import { deadlineLabel, eligibleFor, formatDate, matchOpportunities, regionLabel, typeLabel } from "@/lib/opportunities";
 
 async function load(slug: string) {
   const supabase = await createClient();
@@ -140,6 +140,20 @@ export default async function OpportunityPage({ params }: PageProps<"/oportunida
               </p>
             </div>
           )}
+          {profile?.onboarded &&
+            (() => {
+              const reasons = matchOpportunities(profile, [o])[0]?.reasons ?? [];
+              return reasons.length ? (
+                <div className="rounded-2xl bg-emerald-50 px-4 py-3.5 ring-1 ring-emerald-200">
+                  <p className="text-[11px] font-bold uppercase tracking-[0.14em] text-emerald-800">Por qué es para ti</p>
+                  <ul className="mt-1.5 flex flex-wrap gap-x-4 gap-y-1 text-sm font-medium text-emerald-900">
+                    {reasons.map((r) => (
+                      <li key={r}>✓ {r}</li>
+                    ))}
+                  </ul>
+                </div>
+              ) : null;
+            })()}
           {o.trust_score < 60 && (
             <div className="flex gap-3 rounded-2xl bg-amber-50 px-4 py-3.5 text-sm text-amber-900 ring-1 ring-amber-200">
               <ShieldCheck className="mt-0.5 size-4 shrink-0" />

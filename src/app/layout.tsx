@@ -10,6 +10,8 @@ export const metadata: Metadata = {
   },
   description:
     "Becas, intercambios, congresos, voluntariados y programas de liderazgo de todo el mundo, recomendados según tu perfil.",
+  applicationName: "Youth Match",
+  appleWebApp: { capable: true, title: "Youth Match", statusBarStyle: "default" },
 };
 
 export const viewport: Viewport = {

@@ -8,6 +8,7 @@ import { ButtonLink, EmptyState, PageHeader } from "@/components/ui";
 import { getProfile, getUser } from "@/lib/auth";
 import { PAGE_SIZE, savedIds, searchOpportunities } from "@/lib/queries";
 import { countryName } from "@/lib/constants";
+import { matchOpportunities } from "@/lib/opportunities";
 
 export const metadata: Metadata = {
   title: "Descubrir oportunidades",
@@ -19,6 +20,8 @@ export default async function DiscoverPage({ searchParams }: PageProps<"/descubr
   const [profile, saved, user] = await Promise.all([getProfile(), savedIds(), getUser()]);
   const nationality = profile?.nationality ?? null;
   const { items, total, page, hiddenNotEligible, onlineVolunteering, showAll } = await searchOpportunities(sp, nationality);
+  // Por qué cada una encaja con el perfil (solo si ya completó su perfil)
+  const why = new Map(profile?.onboarded ? matchOpportunities(profile, items).map((m) => [m.opportunity.id, m.reasons]) : []);
 
   const withParam = (key: string, value: string | null) => {
     const next = new URLSearchParams();
@@ -113,7 +116,7 @@ export default async function DiscoverPage({ searchParams }: PageProps<"/descubr
         <>
           <OpportunityGrid>
             {items.map((o) => (
-              <OpportunityCard key={o.id} o={o} saved={saved.has(o.id)} loggedIn={!!user} nationality={nationality} />
+              <OpportunityCard key={o.id} o={o} saved={saved.has(o.id)} loggedIn={!!user} nationality={nationality} reasons={why.get(o.id)} />
             ))}
           </OpportunityGrid>
           {pages > 1 && (

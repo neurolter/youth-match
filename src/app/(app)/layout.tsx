@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Crown, Shield } from "lucide-react";
 import { DesktopNav, MobileNav } from "@/components/app-nav";
+import { InstallBanner } from "@/components/install-app";
 import { ButtonLink, Logo } from "@/components/ui";
 import { getProfile, hasPremium } from "@/lib/auth";
 
@@ -64,7 +65,10 @@ export default async function AppLayout({ children }: { children: React.ReactNod
           )}
         </div>
       </header>
-      <main className="mx-auto w-full max-w-6xl flex-1 px-4 py-7 pb-safe sm:px-6 sm:py-10">{children}</main>
+      <main className="mx-auto w-full max-w-6xl flex-1 px-4 py-7 pb-safe sm:px-6 sm:py-10">
+        {profile && <InstallBanner />}
+        {children}
+      </main>
       {profile && <MobileNav />}
     </div>
   );
