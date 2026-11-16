@@ -190,6 +190,8 @@ export function buildRecord({ page, ex, source, today, linkOk }: Input): Built {
   if (!organization) missing.push("organización");
   if (!app) missing.push(source.tier === 3 ? "fuente oficial verificable" : "link de postulación");
   if (!m.deadline && !m.rolling_deadline) missing.push("fecha límite");
+  if (!m.requirements.length) missing.push("requisitos");
+  if (!m.benefits.length) missing.push("beneficios");
 
   const notes: string[] = [];
   if (missing.length) notes.push(`Falta: ${missing.join(", ")}.`);
