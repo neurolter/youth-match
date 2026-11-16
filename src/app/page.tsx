@@ -6,7 +6,7 @@ import { CONTACT_EMAIL, FOUNDER } from "@/lib/site";
 import { OpportunityCard } from "@/components/opportunity-card";
 import { createClient } from "@/lib/supabase/server";
 import { getUser } from "@/lib/auth";
-import { CARD_COLUMNS, todayISO, type OpportunityCardData } from "@/lib/opportunities";
+import { CARD_COLUMNS, daysLeft, todayISO, type OpportunityCardData } from "@/lib/opportunities";
 import { OPPORTUNITY_TYPES } from "@/lib/constants";
 
 // Destinos del pase de abordar de la portada
@@ -34,10 +34,15 @@ export default async function Home() {
       .filter("eligible_nationalities", "eq", "{}")
       .or("type.neq.voluntariado,modality.neq.virtual")
       .order("trust_score", { ascending: false })
-      .limit(3),
+      .limit(30),
     supabase.from("opportunities").select("id", { count: "exact", head: true }).eq("status", "publicada").or(open),
   ]);
-  const featured = (data ?? []) as OpportunityCardData[];
+  // Primero las 100 % financiadas y con fecha límite confirmada; luego por confianza
+  const rank = (o: OpportunityCardData) => (o.funding === "total" ? 2 : 0) + (o.deadline || o.rolling_deadline ? 1 : 0);
+  const featured = ((data ?? []) as OpportunityCardData[])
+    .filter((o) => (daysLeft(o.deadline) ?? 99) >= 7) // nada que cierre en menos de una semana
+    .sort((a, b) => rank(b) - rank(a) || b.trust_score - a.trust_score)
+    .slice(0, 3);
 
   return (
     <div className="flex min-h-dvh flex-col">

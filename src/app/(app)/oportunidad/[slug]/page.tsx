@@ -186,6 +186,23 @@ export default async function OpportunityPage({ params }: PageProps<"/oportunida
                   <List items={o.requirements} />
                 </Section>
               )}
+              {(o.benefits.length === 0 || o.requirements.length === 0) && applyUrl && (
+                <Card className="flex gap-3 p-5 text-sm text-ink/70">
+                  <ClipboardList className="mt-0.5 size-5 shrink-0 text-navy" />
+                  <p>
+                    {o.benefits.length === 0 && o.requirements.length === 0
+                      ? "Los requisitos y beneficios completos están en las bases oficiales."
+                      : o.benefits.length === 0
+                        ? "El detalle de lo que cubre está en las bases oficiales."
+                        : "Los requisitos completos están en las bases oficiales."}{" "}
+                    Léelas antes de postular:{" "}
+                    <a href={applyUrl} target="_blank" rel="noopener noreferrer" className="font-semibold text-brand-700 hover:underline">
+                      abrir la convocatoria oficial
+                    </a>
+                    .
+                  </p>
+                </Card>
+              )}
               {o.description && (
                 <Section title="Descripción">
                   <div className="whitespace-pre-line text-sm leading-relaxed text-ink/80">{o.description}</div>

@@ -31,8 +31,8 @@ Recibirás el texto de UNA página web (y a veces sus bases en PDF o el texto de
 - education_levels (array): valores de ${list(EDUCATION)} a los que va dirigida. Vacío si no se indica.
 - languages (array): idiomas requeridos, entre ${list(LANGS)}.
 - areas (array, máximo 3): temas, SOLO de esta lista exacta: ${list(AREAS)}.
-- benefits (array, máximo 6): lista corta en español de lo que recibe el participante.
-- requirements (array, máximo 6): lista corta en español de los requisitos principales.
+- benefits (array, máximo 6): lo que recibe el participante, en frases cortas en español. Sé CONCRETO: incluye montos, porcentajes y qué cubre exactamente cuando el texto lo diga (ej.: "Matrícula completa", "Estipendio de 1.200 € al mes", "Pasaje de ida y vuelta", "Cubre el 50 % de la matrícula"). Si el financiamiento es parcial, di qué parte cubre y qué no.
+- requirements (array, máximo 8): requisitos principales en frases cortas en español: nacionalidad o residencia, edad, nivel de estudios, promedio, idioma (con el examen o nivel si se indica), experiencia y documentos clave.
 - deadline (YYYY-MM-DD o null): fecha límite de postulación, en la zona horaria de la fuente. Si hay varias, la de la fase de postulación vigente.
 - rolling_deadline (boolean): true solo si la convocatoria dice que está siempre abierta o que es permanente.
 - start_date, end_date (YYYY-MM-DD o null): fechas del programa, no de la postulación.
