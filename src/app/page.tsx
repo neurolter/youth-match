@@ -48,12 +48,13 @@ export default async function Home() {
           <div className="absolute inset-x-0 top-0 -z-10 h-[520px] bg-gradient-to-b from-brand-50 to-white" />
           <div className="absolute -right-32 top-10 -z-10 size-96 rounded-full bg-brand-200/40 blur-3xl" />
           <div className="mx-auto max-w-6xl px-4 pb-16 pt-12 sm:px-6 sm:pt-20">
+            <div className="grid items-center gap-10 lg:grid-cols-[1.4fr_1fr]">
             <div className="max-w-3xl">
               <span className="inline-flex items-center gap-2 rounded-full bg-white px-3 py-1 text-xs font-semibold text-brand-700 ring-1 ring-brand-100">
                 <Sparkles className="size-3.5" /> Hecho para jóvenes de Latinoamérica
               </span>
               <h1 className="mt-5 text-4xl font-extrabold leading-[1.1] tracking-tight text-slate-900 sm:text-6xl">
-                Tu próxima experiencia <span className="text-brand-600">internacional</span>, sin buscar por horas.
+                Tu próxima experiencia <span className="text-gradient-accent">internacional</span>, sin buscar por horas.
               </h1>
               <p className="mt-5 max-w-2xl text-lg text-slate-600">
                 Becas, intercambios, congresos, voluntariados y programas de liderazgo de fuentes oficiales, reunidos en un solo lugar,
@@ -67,6 +68,15 @@ export default async function Home() {
                   Ver oportunidades {count ? `(${count})` : ""}
                 </ButtonLink>
               </div>
+            </div>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/brand/youth-match-logo.png"
+              alt="Youth Match"
+              width={986}
+              height={767}
+              className="mx-auto hidden w-full max-w-sm drop-shadow-xl lg:block"
+            />
             </div>
 
             <div className="mt-12 flex flex-wrap gap-2">
@@ -128,6 +138,8 @@ export default async function Home() {
 
         <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6">
           <div className="rounded-3xl bg-gradient-to-br from-brand-600 to-brand-900 px-6 py-12 text-center text-white sm:px-12">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/brand/youth-match-logo-blanco.png" alt="Youth Match" width={890} height={732} className="mx-auto mb-6 w-40" />
             <h2 className="text-3xl font-bold tracking-tight">El mundo te está esperando</h2>
             <p className="mx-auto mt-3 max-w-xl text-brand-100">Crea tu cuenta gratis y recibe tus primeras recomendaciones en 2 minutos.</p>
             <ButtonLink href="/registro" size="lg" variant="secondary" className="mt-7">
@@ -139,7 +151,7 @@ export default async function Home() {
 
       <footer className="border-t border-slate-100 py-8">
         <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-3 px-4 text-sm text-slate-500 sm:flex-row sm:px-6">
-          <span>© {new Date().getFullYear()} Youth Match</span>
+          <Logo size={24} className="text-sm" />
           <div className="flex gap-4">
             <Link href="/terminos" className="hover:text-slate-900">Términos</Link>
             <Link href="/privacidad" className="hover:text-slate-900">Privacidad</Link>

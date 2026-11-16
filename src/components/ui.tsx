@@ -152,15 +152,12 @@ export function Alert({ tone = "red", children }: { tone?: "red" | "green" | "br
   return <div className={clsx("rounded-xl px-4 py-3 text-sm ring-1", tones[tone])}>{children}</div>;
 }
 
-export function Logo({ className }: { className?: string }) {
+export function Logo({ className, variant = "color", size = 32 }: { className?: string; variant?: "color" | "white"; size?: number }) {
   return (
     <span className={clsx("inline-flex items-center gap-2 font-bold tracking-tight", className)}>
-      <span className="grid size-8 place-items-center rounded-xl bg-gradient-to-br from-brand-500 to-brand-700 text-sm text-white shadow-sm">
-        YM
-      </span>
-      <span>
-        Youth <span className="text-brand-600">Match</span>
-      </span>
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img src="/brand/youth-match-simbolo.png" alt="" width={size} height={size} className="shrink-0" />
+      <span className={variant === "white" ? "text-white" : "text-navy"}>Youth Match</span>
     </span>
   );
 }

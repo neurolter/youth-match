@@ -2,15 +2,20 @@
 
 @theme {
   --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
-  --color-brand-50: #eef2ff;
-  --color-brand-100: #e0e7ff;
-  --color-brand-200: #c7d2fe;
-  --color-brand-500: #6366f1;
-  --color-brand-600: #4f46e5;
-  --color-brand-700: #4338ca;
-  --color-brand-900: #1e1b4b;
+  /* Colores del logo de Youth Match */
+  --color-brand-50: #eff5ff;
+  --color-brand-100: #dbe8ff;
+  --color-brand-200: #bcd4ff;
+  --color-brand-300: #8fb6fb;
+  --color-brand-500: #2f6fe4;
+  --color-brand-600: #1a56d6;
+  --color-brand-700: #1443ad;
+  --color-brand-800: #0f3380;
+  --color-brand-900: #0b1f52;
+  --color-navy: #0b1f52;
   --color-accent-400: #fbbf24;
-  --color-accent-500: #f59e0b;
+  --color-accent-500: #f97316;
+  --color-accent-600: #ef233c;
 }
 
 html {
@@ -29,4 +34,15 @@ body {
   .pb-safe {
     padding-bottom: 2rem;
   }
+}
+
+/* Degradado de la flecha del logo: rojo → naranja → amarillo */
+.text-gradient-accent {
+  background: linear-gradient(90deg, #ef233c, #f97316 55%, #facc15);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.bg-gradient-accent {
+  background: linear-gradient(90deg, #ef233c, #f97316 55%, #facc15);
 }
