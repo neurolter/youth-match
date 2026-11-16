@@ -74,3 +74,10 @@ npm run dev
 ```
 
 Para hacerte admin: en Supabase → SQL, `update profiles set role = 'admin' where id = '<tu-user-id>';`
+
+## Correos a usuarios
+
+- **Bienvenida**: se envía al terminar el onboarding (desde la app, necesita `RESEND_API_KEY` en Vercel).
+- **Fecha límite** (7 y 2 días antes), **nueva oportunidad en tu país** (máx. 3 por semana) y **resumen semanal** (lunes): workflow `.github/workflows/correos.yml`, todos los días 08:23 hora de Ecuador. Necesita el secreto `RESEND_API_KEY` en GitHub.
+- Prueba manual: Actions → *Correos a usuarios* → Run workflow → escribe tu correo en "solo_a".
+- Cada usuario puede apagar cada aviso en **Perfil** o con el enlace del pie del correo. Nada se envía dos veces (tabla `email_log`).

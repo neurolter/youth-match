@@ -174,6 +174,25 @@ export function ProfileForm({ profile, mode }: { profile: Profile; mode: "onboar
         </div>
       </section>
 
+      {!onboarding && (
+        <section className="space-y-3">
+          <h2 className="text-lg font-semibold">Avisos por correo</h2>
+          {[
+            ["notify_weekly", "Resumen semanal", "Cada lunes, las nuevas oportunidades que encajan contigo.", profile.notify_weekly],
+            ["notify_deadlines", "Fechas límite", "Te avisamos 7 y 2 días antes de que cierre una oportunidad guardada.", profile.notify_deadlines],
+            ["notify_country", "Nuevas en tu país", "Cuando se publica una oportunidad para tu país.", profile.notify_country],
+          ].map(([name, title, desc, on]) => (
+            <label key={name as string} className="flex items-center gap-3 rounded-2xl bg-white p-4 ring-1 ring-navy/10">
+              <input type="checkbox" name={name as string} defaultChecked={on as boolean} className="size-5 accent-navy" />
+              <span>
+                <span className="block text-sm font-semibold text-navy">{title as string}</span>
+                <span className="block text-xs text-ink/55">{desc as string}</span>
+              </span>
+            </label>
+          ))}
+        </section>
+      )}
+
       {state?.error && <Alert>{state.error}</Alert>}
       {state?.message && <Alert tone="green">{state.message}</Alert>}
 

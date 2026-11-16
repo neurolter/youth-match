@@ -1,0 +1,45 @@
+name: Correos a usuarios
+
+on:
+  # Todos los días a las 13:23 UTC (08:23 en Ecuador): avisos de fecha límite y
+  # nuevas oportunidades en tu país. Los lunes, además, el resumen semanal
+  # (después de que el importador corre a la 01:17).
+  schedule:
+    - cron: "23 13 * * *"
+  workflow_dispatch:
+    inputs:
+      solo_a:
+        description: "Prueba: enviar solo a este correo (vacío = a todos)"
+        required: false
+        default: ""
+      forzar_semanal:
+        description: "Enviar también el resumen semanal aunque no sea lunes"
+        type: boolean
+        default: false
+
+concurrency:
+  group: correos
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  enviar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Enviar correos
+        run: npm run correos
+        env:
+          NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
+          SUPABASE_SECRET_KEY: ${{ secrets.SUPABASE_SECRET_KEY }}
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+          CORREOS_SOLO_A: ${{ inputs.solo_a }}
+          CORREOS_FORZAR_SEMANAL: ${{ inputs.forzar_semanal }}

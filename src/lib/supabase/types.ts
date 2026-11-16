@@ -35,6 +35,11 @@ export type ProfileRow = {
   regions: string[];
   role: string;
   updated_at: string;
+  notify_deadlines: boolean;
+  notify_weekly: boolean;
+  notify_country: boolean;
+  welcome_sent_at: string | null;
+  unsubscribe_token: string;
 };
 
 export type SourceRow = {
@@ -234,6 +239,7 @@ export type Database = {
       expire_past_deadlines: { Args: never; Returns: number };
       is_admin: { Args: never; Returns: boolean };
       user_has_premium: { Args: never; Returns: boolean };
+      email_unsubscribe: { Args: { token: string; kind?: string }; Returns: boolean };
     };
     Enums: { [_ in never]: never };
     CompositeTypes: { [_ in never]: never };
