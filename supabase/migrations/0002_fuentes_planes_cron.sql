@@ -19,7 +19,7 @@ insert into public.plans (id, name, description, price_cents, currency, billing_
    array['Descubrir todas las oportunidades públicas','Guardar hasta 10 oportunidades','Seguimiento de postulaciones'], 0),
   ('premium_mensual', 'Premium', 'Para postular en serio', 499, 'USD', 'mes',
    array['Todo lo del plan Gratis','Recomendaciones "Para ti" ilimitadas','Oportunidades exclusivas','Alertas de fechas límite','Asistente de IA para tus postulaciones (próximamente)'], 1),
-  ('premium_anual', 'Premium anual', '2 meses gratis', 3999, 'USD', 'anio',
+  ('premium_anual', 'Premium anual', 'Ahorra 33 % frente al plan mensual', 3999, 'USD', 'anio',
    array['Todo lo de Premium','Precio preferente pagando el año'], 2)
 on conflict (id) do update set
   name = excluded.name, description = excluded.description, price_cents = excluded.price_cents,
