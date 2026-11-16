@@ -16,6 +16,10 @@ Investigación de noviembre de 2026, en inglés y en español. Todas están carg
 | Voluntarios ONU (UNV) | headless | Voluntariado en línea abierto a todas las nacionalidades y UN Youth Volunteers (18–26 años). Publica todo el año. |
 | Becas OEA | html | Becas de posgrado y cursos para ciudadanos de las Américas, en español. |
 | Opportunity Desk | rss | El agregador más grande y frecuente en inglés. Sirve de radar para congresos, fellowships y competencias. |
+| Opportunities Corners | rss | Pedida por Sebastian. Agregador: seguir cada publicación hasta la fuente oficial. |
+| Scholarships Corner | rss | Pedida por Sebastian. Agregador de becas: seguir cada publicación hasta la fuente oficial. |
+| One Young World | html | Pedida por Sebastian. Cumbre anual y becas de delegado. |
+| YouthOp – Conferencias (`youthop.com/conferences`) | html | Pedida por Sebastian. Cada conferencia listada es una oportunidad. |
 
 ## Prioridad 2
 
@@ -23,7 +27,7 @@ Eurodesk Opportunity Finder (más de 250 programas verificados; ojo: muchos son 
 
 ## Prioridad 3
 
-Becas.com, Portal Europeo de la Juventud, One Young World, YLAI, Türkiye Burslari, Stipendium Hungaricum (Ecuador es país socio), GKS Corea, AMEXCID México, y Scholarships Corner y Opportunities Corners (fuentes del prototipo, de baja confianza).
+Becas.com, Portal Europeo de la Juventud, One Young World, YLAI, Türkiye Burslari, Stipendium Hungaricum (Ecuador es país socio), GKS Corea, AMEXCID México.
 
 ## Descartadas
 
