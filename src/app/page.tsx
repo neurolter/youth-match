@@ -9,6 +9,15 @@ import { getUser } from "@/lib/auth";
 import { CARD_COLUMNS, todayISO, type OpportunityCardData } from "@/lib/opportunities";
 import { OPPORTUNITY_TYPES } from "@/lib/constants";
 
+// Destinos del pase de abordar de la portada
+const DESTINATIONS = [
+  ["MAD", "Madrid, España"],
+  ["TYO", "Tokio, Japón"],
+  ["BER", "Berlín, Alemania"],
+  ["NYC", "Nueva York, EE. UU."],
+  ["SYD", "Sídney, Australia"],
+] as const;
+
 export default async function Home() {
   const user = await getUser();
   if (user) redirect("/para-ti");
@@ -114,19 +123,25 @@ export default async function Home() {
                     <path d="M2 24 C 40 2, 80 2, 116 20" fill="none" stroke="currentColor" strokeWidth="2.5" strokeDasharray="6 6" className="animate-dash" style={{ strokeDashoffset: 120 }} />
                     <circle cx="116" cy="20" r="3.5" fill="currentColor" />
                   </svg>
-                  <div className="text-right">
-                    <p className="font-display text-4xl font-extrabold text-navy">MAD</p>
-                    <p className="text-xs font-medium text-ink/50">Madrid, España</p>
+                  <div className="h-14 overflow-hidden text-right">
+                    <div className="animate-ticker">
+                      {[...DESTINATIONS, DESTINATIONS[0]].map(([code, city], i) => (
+                        <div key={i} className="h-14">
+                          <p className="font-display text-4xl font-extrabold leading-10 text-navy">{code}</p>
+                          <p className="text-xs leading-4 font-medium text-ink/50">{city}</p>
+                        </div>
+                      ))}
+                    </div>
                   </div>
                 </div>
-                <p className="mt-6 font-display text-xl font-bold leading-snug text-navy">Beca de maestría 100 % financiada</p>
-                <p className="mt-1 text-sm text-ink/55">Ejemplo ilustrativo</p>
+                <p className="mt-6 font-display text-xl font-bold leading-snug text-navy">De Ecuador al mundo</p>
+                <p className="mt-1 text-sm text-ink/55">Pasajero: tú</p>
               </div>
               <div className="ticket-perf grid grid-cols-3 gap-3 px-6 pb-6 pt-4">
                 {[
                   ["Tipo", "🎓 Beca"],
-                  ["Financia", "100 %"],
-                  ["Cierra", "12 días"],
+                  ["Financia", "100 % todo incluido"],
+                  ["Embarque", "Postula ya"],
                 ].map(([l, v]) => (
                   <div key={l}>
                     <p className="text-[10px] font-bold uppercase tracking-[0.14em] text-ink/40">{l}</p>

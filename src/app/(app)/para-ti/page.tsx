@@ -10,7 +10,7 @@ import { savedIds } from "@/lib/queries";
 
 export const metadata: Metadata = { title: "Para ti" };
 
-const FREE_LIMIT = 6;
+const FREE_LIMIT = 10; // plan gratis: 10 recomendaciones por semana
 
 export default async function ForYouPage() {
   const profile = await requireOnboardedProfile("/para-ti");
@@ -65,7 +65,7 @@ export default async function ForYouPage() {
                 <p className="font-display text-2xl font-bold">
                   Tienes <span className="text-gradient-accent">{matches.length - FREE_LIMIT} coincidencias más</span> esperándote
                 </p>
-                <p className="mt-1.5 text-sm text-white/70">Con Premium ves todas tus recomendaciones y recibes alertas antes de que cierren.</p>
+                <p className="mt-1.5 text-sm text-white/70">Con Premium ves todas tus recomendaciones cada semana y guardas sin límite.</p>
               </div>
               <ButtonLink href="/planes" variant="accent" className="relative mt-5 shrink-0 sm:mt-0">
                 Ver Premium

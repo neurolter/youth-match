@@ -34,6 +34,7 @@
   --animate-rise: rise 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) both;
   --animate-float: float 7s ease-in-out infinite;
   --animate-dash: dash 2.4s ease-in-out infinite;
+  --animate-ticker: ticker 12.5s cubic-bezier(0.7, 0, 0.2, 1) infinite;
 
   @keyframes rise {
     from { opacity: 0; transform: translateY(14px); }
@@ -42,6 +43,15 @@
   @keyframes float {
     0%, 100% { transform: translateY(0) rotate(-2deg); }
     50% { transform: translateY(-10px) rotate(1deg); }
+  }
+  /* Destinos que van cambiando en el pase de abordar (6 filas: la última repite la primera) */
+  @keyframes ticker {
+    0%, 16% { transform: translateY(0); }
+    20%, 36% { transform: translateY(-16.6667%); }
+    40%, 56% { transform: translateY(-33.3333%); }
+    60%, 76% { transform: translateY(-50%); }
+    80%, 96% { transform: translateY(-66.6667%); }
+    100% { transform: translateY(-83.3333%); }
   }
   @keyframes dash {
     0% { stroke-dashoffset: 120; }
