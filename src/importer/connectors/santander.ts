@@ -123,7 +123,7 @@ async function headless(item: ListItem, ctx: Ctx): Promise<Page | null> {
 
 export const santander: Connector = {
   complete: true,
-  maxPages: 120,
+  maxPages: 250, // la API responde rápido y las convocatorias cerradas no gastan IA
   async list(ctx) {
     const items: ListItem[] = [];
     for (const url of SITEMAPS) {

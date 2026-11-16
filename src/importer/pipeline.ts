@@ -51,13 +51,15 @@ export async function upsertOpportunity(
   source: Source,
   built: Built,
   known: Opp | null,
+  /** Otras URL con las que pudo guardarse antes el mismo registro (p. ej. la URL sin normalizar). */
+  extraUrls: string[] = [],
 ): Promise<{ id: string | null; outcome: Outcome }> {
   const f = built.fields;
   const existing =
     known ??
     (await store.findOpportunity({
       fingerprint: f.fingerprint,
-      urls: [f.canonical_url, f.application_url ?? ""].filter(Boolean),
+      urls: [f.canonical_url, f.application_url ?? "", ...extraUrls].filter(Boolean),
       sourceId: source.id,
       externalId: f.external_id,
       titleKey: titleKey(f.title, f.organization),
@@ -196,7 +198,7 @@ export async function runSource(source: Source, deps: Deps): Promise<RunResult> 
         const linkOk = !app ? null : canonicalUrl(app) === canonicalUrl(page.url) ? true : await ctx.http.linkOk(app);
         const built = buildRecord({ page, ex, source, today, linkOk });
 
-        const { id, outcome } = await upsertOpportunity(store, source, built, current);
+        const { id, outcome } = await upsertOpportunity(store, source, built, current, source.tier === 3 ? [] : [page.url]);
         if (outcome === "creada") result.created++;
         if (outcome === "actualizada") result.updated++;
         if (outcome === "cerrada" && current && current.status === "publicada") result.expired++;
