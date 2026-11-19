@@ -24,7 +24,7 @@ const FIRSTS = [
 
 export function FounderSection() {
   return (
-    <section id="fundador" className="mx-auto max-w-6xl px-4 pt-16 sm:px-6">
+    <section id="fundador" className="mx-auto max-w-6xl scroll-mt-6 px-4 pt-16 sm:px-6">
       <p className="text-xs font-bold uppercase tracking-[0.18em] text-accent-500">Sobre el fundador</p>
       <h2 className="mt-2 max-w-3xl text-3xl font-bold text-navy sm:text-4xl">Creado por alguien que ya hizo el viaje</h2>
 

@@ -4,11 +4,20 @@ import { ArrowRight, ArrowUpRight, BellRing, ClipboardList, Globe2, ShieldCheck,
 import { ButtonLink, Logo } from "@/components/ui";
 import { CONTACT_EMAIL } from "@/lib/site";
 import { FounderSection } from "@/components/founder-section";
+import { MobileMenu } from "@/components/landing-menu";
 import { OpportunityCard } from "@/components/opportunity-card";
 import { createClient } from "@/lib/supabase/server";
 import { getUser } from "@/lib/auth";
 import { CARD_COLUMNS, daysLeft, todayISO, type OpportunityCardData } from "@/lib/opportunities";
 import { OPPORTUNITY_TYPES } from "@/lib/constants";
+
+// Menú de la portada
+const NAV = [
+  ["#como-funciona", "Cómo funciona"],
+  ["#fundador", "Fundador"],
+  ["/registro?siguiente=%2Fdescubrir", "Explorar"],
+  ["/planes", "Planes"],
+] as const;
 
 // Destinos del pase de abordar de la portada
 const DESTINATIONS = [
@@ -52,23 +61,22 @@ export default async function Home() {
         <header className="relative z-10 mx-auto flex h-18 w-full max-w-6xl items-center justify-between px-4 sm:px-6">
           <Logo variant="white" />
           <nav className="flex items-center gap-1 sm:gap-2">
-            <Link href="/registro?siguiente=%2Fdescubrir" className="hidden rounded-full px-4 py-2 text-sm font-semibold text-white/75 hover:text-white sm:block">
-              Explorar
-            </Link>
-            <Link href="/planes" className="hidden rounded-full px-4 py-2 text-sm font-semibold text-white/75 hover:text-white sm:block">
-              Planes
-            </Link>
-            <Link href="/ingresar" className="hidden rounded-full px-4 py-2 text-sm font-semibold text-white/85 hover:text-white sm:block">
+            {NAV.map(([href, label]) => (
+              <Link key={href} href={href} className="hidden rounded-full px-3.5 py-2 text-sm font-semibold text-white/75 hover:text-white lg:block">
+                {label}
+              </Link>
+            ))}
+            <Link href="/ingresar" className="hidden rounded-full px-3.5 py-2 text-sm font-semibold text-white/85 hover:text-white lg:block">
               Ingresar
             </Link>
-            <ButtonLink href="/ingresar" variant="light" size="sm" className="sm:hidden">
-              Ingresar
-            </ButtonLink>
-            <span className="hidden sm:block">
+            <span className="hidden lg:block">
               <ButtonLink href="/registro" variant="light" size="sm">
                 Crear cuenta
               </ButtonLink>
             </span>
+
+            {/* Menú para celular y tablet */}
+            <MobileMenu items={NAV} />
           </nav>
         </header>
 
@@ -200,7 +208,7 @@ export default async function Home() {
         )}
 
         {/* ------------------------------------------------- CÓMO FUNCIONA */}
-        <section className="border-y border-navy/[0.06] bg-white py-16 sm:py-20">
+        <section id="como-funciona" className="scroll-mt-6 border-y border-navy/[0.06] bg-white py-16 sm:py-20">
           <div className="mx-auto max-w-6xl px-4 sm:px-6">
             <div className="max-w-2xl">
               <p className="text-xs font-bold uppercase tracking-[0.18em] text-accent-500">Cómo funciona</p>
@@ -248,7 +256,9 @@ export default async function Home() {
       <footer className="border-t border-navy/[0.06] py-8">
         <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 px-4 text-sm text-ink/55 sm:flex-row sm:px-6">
           <Logo size={26} className="text-sm" />
-          <div className="flex gap-5">
+          <div className="flex flex-wrap justify-center gap-x-5 gap-y-2">
+            <a href="#como-funciona" className="hover:text-navy">Cómo funciona</a>
+            <a href="#fundador" className="hover:text-navy">Fundador</a>
             <Link href="/registro?siguiente=%2Fdescubrir" className="hover:text-navy">Explorar</Link>
             <Link href="/terminos" className="hover:text-navy">Términos</Link>
             <Link href="/privacidad" className="hover:text-navy">Privacidad</Link>
