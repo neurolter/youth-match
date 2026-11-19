@@ -1,8 +1,9 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { ArrowRight, ArrowUpRight, BellRing, ClipboardList, Globe2, Mail, ShieldCheck, Sparkles, TimerOff } from "lucide-react";
-import { ButtonLink, Logo, buttonClass } from "@/components/ui";
-import { CONTACT_EMAIL, FOUNDER } from "@/lib/site";
+import { ArrowRight, ArrowUpRight, BellRing, ClipboardList, Globe2, ShieldCheck, Sparkles, TimerOff } from "lucide-react";
+import { ButtonLink, Logo } from "@/components/ui";
+import { CONTACT_EMAIL } from "@/lib/site";
+import { FounderSection } from "@/components/founder-section";
 import { OpportunityCard } from "@/components/opportunity-card";
 import { createClient } from "@/lib/supabase/server";
 import { getUser } from "@/lib/auth";
@@ -227,25 +228,8 @@ export default async function Home() {
           </div>
         </section>
 
-        {/* --------------------------------------------------- QUIÉNES SOMOS */}
-        <section id="contacto" className="mx-auto max-w-6xl px-4 pt-16 sm:px-6">
-          <div className="grid gap-8 rounded-[2rem] bg-white p-7 ring-1 ring-navy/8 sm:p-10 md:grid-cols-[1.4fr_1fr] md:items-center">
-            <div>
-              <p className="text-xs font-bold uppercase tracking-[0.18em] text-accent-500">Quiénes somos</p>
-              <h2 className="mt-2 text-3xl font-bold text-navy">Hecho en Ecuador, para Latinoamérica</h2>
-              <p className="mt-3 text-[15px] leading-relaxed text-ink/65">
-                Youth Match es un proyecto de <b className="text-navy">{FOUNDER}</b>, creado para que más jóvenes latinoamericanos encuentren
-                las becas, intercambios y congresos que pueden cambiar su camino, sin perderse entre cientos de páginas.
-              </p>
-            </div>
-            <div className="rounded-2xl bg-paper p-5">
-              <p className="text-sm font-semibold text-navy">¿Tienes una pregunta, una sugerencia o una oportunidad para compartir?</p>
-              <a href={`mailto:${CONTACT_EMAIL}`} className={buttonClass("primary", "md", "mt-4 w-full")}>
-                <Mail className="size-4" /> {CONTACT_EMAIL}
-              </a>
-            </div>
-          </div>
-        </section>
+        {/* ------------------------------------------------- FUNDADOR */}
+        <FounderSection />
 
         {/* ------------------------------------------------------------ CTA */}
         <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6">
